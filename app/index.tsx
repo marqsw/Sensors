@@ -1,5 +1,4 @@
-import { ThemedText } from "@/components/ThemedText";
-import { SafeAreaView, StyleSheet, useColorScheme } from "react-native";
+import { SafeAreaView } from "react-native";
 
 import { ThemedView } from "@/components/ThemedView";
 import SensorCard from "@/components/SensorCard";
