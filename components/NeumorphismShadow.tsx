@@ -1,6 +1,6 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedView } from "./ThemedView";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 type NeumorphismShadowProps = {
   children: React.ReactNode;
@@ -11,8 +11,10 @@ export default function NeumorphismShadow({
   ...otherProps
 }: NeumorphismShadowProps) {
   const shadowOffset = 20;
-  const lightShadow = useThemeColor({}, "lightShadow");
-  const darkShadow = useThemeColor({}, "darkShadow");
+  const lightShadow =
+    Platform.OS === "ios" ? useThemeColor({}, "lightShadow") : "#fff";
+  const darkShadow =
+    Platform.OS === "ios" ? useThemeColor({}, "darkShadow") : "#000";
 
   return (
     <ThemedView
@@ -26,20 +28,23 @@ export default function NeumorphismShadow({
         },
       ]}
     >
-      <ThemedView
-        style={[
-          styles.shadow,
-          {
-            shadowColor: lightShadow,
-            shadowOffset: { height: -shadowOffset, width: -shadowOffset },
-            flex: 1,
-            width: "100%",
-            height: "100%",
-          },
-        ]}
-      >
-        {children}
-      </ThemedView>
+      {Platform.OS === "ios" ? (
+        <ThemedView
+          style={[
+            styles.shadow,
+            {
+              shadowColor: lightShadow,
+              shadowOffset: { height: -shadowOffset, width: -shadowOffset },
+              width: "100%",
+              height: "100%",
+            },
+          ]}
+        >
+          {children}
+        </ThemedView>
+      ) : (
+        children
+      )}
     </ThemedView>
   );
 }
@@ -51,5 +56,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     alignItems: "center",
     justifyContent: "center",
+    elevation: 24,
   },
 });
