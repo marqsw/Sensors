@@ -17,7 +17,7 @@ export default function NeumorphismShadow({
   return (
     <ThemedView
       style={[
-        styles.cardBackground,
+        styles.shadow,
         otherProps,
         {
           shadowColor: darkShadow,
@@ -28,7 +28,7 @@ export default function NeumorphismShadow({
     >
       <ThemedView
         style={[
-          styles.cardBackground,
+          styles.shadow,
           {
             shadowColor: lightShadow,
             shadowOffset: { height: -shadowOffset, width: -shadowOffset },
@@ -45,7 +45,7 @@ export default function NeumorphismShadow({
 }
 
 const styles = StyleSheet.create({
-  cardBackground: {
+  shadow: {
     borderRadius: 40,
     shadowRadius: 20,
     shadowOpacity: 1,
