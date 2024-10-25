@@ -1,11 +1,10 @@
 import { SafeAreaView } from "react-native";
-
 import { ThemedView } from "@/components/ThemedView";
-import SensorCard from "@/components/SensorCard";
 import { ScrollView } from "react-native";
-import { useHeaderHeight } from "@react-navigation/elements";
+import { HeaderTitle, useHeaderHeight } from "@react-navigation/elements";
+import Card from "@/components/Card";
 
-const gapSize = 40;
+const gapSize = 25;
 
 export default function Home() {
   const headerHeight = useHeaderHeight();
@@ -17,19 +16,33 @@ export default function Home() {
       }}
     >
       <SafeAreaView>
-        <ScrollView>
+        <ScrollView
+          style={{
+            minHeight: "100%",
+          }}
+          showsVerticalScrollIndicator={false}
+        >
           <ThemedView
             style={{
               margin: gapSize,
               gap: gapSize,
+              flexDirection: "column",
             }}
           >
-            <SensorCard />
-            <SensorCard />
-            <SensorCard />
+            {cards.map((card) => {
+              return <Card key={card.title} {...card} />;
+            })}
           </ThemedView>
         </ScrollView>
       </SafeAreaView>
     </ThemedView>
   );
 }
+
+const cards = [
+  { title: "Camera", shape: "rectangle" },
+  { title: "Accelerometer" },
+  { title: "Gyroscope" },
+  { title: "Magnetometer" },
+  { title: "Barometer" },
+];

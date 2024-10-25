@@ -3,6 +3,8 @@
  * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
  */
 
+import { BorderlessButton } from "react-native-gesture-handler";
+
 const tintColorLight = "#0a7ea4";
 const tintColorDark = "#fff";
 
@@ -16,6 +18,7 @@ export const Colors = {
     tabIconSelected: tintColorLight,
     lightShadow: "#ffffff",
     darkShadow: "#bebebe",
+    border:'#0000'
   },
   dark: {
     text: "#ECEDEE",
@@ -26,5 +29,6 @@ export const Colors = {
     tabIconSelected: tintColorDark,
     lightShadow: "#222526",
     darkShadow: "#08090a",
+    border: '#3c3c3c7f'
   },
 };
