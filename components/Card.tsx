@@ -3,6 +3,7 @@ import { ThemedView } from "./ThemedView";
 import { Platform, Pressable, StyleSheet, Text } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { useState } from "react";
+import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
 
 type CardProps = {
   title?: string;
@@ -12,56 +13,62 @@ type CardProps = {
 export default function Card({ title, children }: CardProps) {
   // shadow settings
   const shadowOffset = 10;
-  const lightShadow =
-    Platform.OS === "ios" ? useThemeColor({}, "lightShadow") : "#fff";
-  const darkShadow =
-    Platform.OS === "ios" ? useThemeColor({}, "darkShadow") : "#000";
+  const lightShadow = useThemeColor({}, "lightShadow");
+  const darkShadow = useThemeColor({}, "darkShadow");
 
   const border = useThemeColor({}, "border");
 
-  const [expand, setExpand] = useState(false);
+  // animation
+  const aspectRatio = useSharedValue(2);
+  const handlePress = () => {
+    aspectRatio.value = withSpring(3 - aspectRatio.value, {damping: 11});
+  };
 
-  const content = (
-    <>
-      <ThemedText type="subtitle">{title}</ThemedText>
-
-      {children}
-    </>
+  const content = children ? (
+    children
+  ) : (
+    <ThemedText type="subtitle">{title}</ThemedText>
   );
 
   return (
-    <Pressable onPress={() => setExpand(!expand)}>
-      <ThemedView
-        style={[
-          styles.shadow,
-          {
-            shadowColor: darkShadow,
-            shadowOffset: { height: shadowOffset, width: shadowOffset },
-            aspectRatio: expand ? 1 : 2,
-            flex: 1,
-            borderWidth: Platform.OS === "android" ? 1 : 0,
-            borderColor: border,
-          },
-        ]}
+    <Pressable onPress={handlePress}>
+      <Animated.View
+        style={{
+          aspectRatio: aspectRatio
+        }}
       >
-        {Platform.OS === "ios" ? (
-          <ThemedView
-            style={[
-              styles.shadow,
-              {
-                shadowColor: lightShadow,
-                shadowOffset: { height: -shadowOffset, width: -shadowOffset },
-                width: "100%",
-                height: "100%",
-              },
-            ]}
-          >
-            {content}
-          </ThemedView>
-        ) : (
-          <>{content}</>
-        )}
-      </ThemedView>
+        <ThemedView
+          style={[
+            styles.shadow,
+            {
+              shadowColor: darkShadow,
+              shadowOffset: { height: shadowOffset, width: shadowOffset },
+              flex: 1,
+              borderWidth: Platform.OS === "android" ? 1 : 0,
+              borderColor: border,
+              overflow: "hidden",
+            },
+          ]}
+        >
+          {Platform.OS === "ios" ? (
+            <ThemedView
+              style={[
+                styles.shadow,
+                {
+                  shadowColor: lightShadow,
+                  shadowOffset: { height: -shadowOffset, width: -shadowOffset },
+                  width: "100%",
+                  height: "100%",
+                },
+              ]}
+            >
+              {content}
+            </ThemedView>
+          ) : (
+            <>{content}</>
+          )}
+        </ThemedView>
+      </Animated.View>
     </Pressable>
   );
 }
@@ -69,7 +76,7 @@ export default function Card({ title, children }: CardProps) {
 const styles = StyleSheet.create({
   shadow: {
     borderRadius: 40,
-    shadowRadius: 12,
+    // shadowRadius: 12,
     shadowOpacity: 1,
     alignItems: "center",
     justifyContent: "center",

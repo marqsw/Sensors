@@ -1,18 +1,14 @@
 import { SafeAreaView } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { ScrollView } from "react-native";
-import { HeaderTitle, useHeaderHeight } from "@react-navigation/elements";
+import { useHeaderHeight } from "@react-navigation/elements";
 import Card from "@/components/Card";
-import { useCameraDevice, useCameraPermission } from "react-native-vision-camera";
+import CameraView from "@/components/CameraView";
 
 const gapSize = 25;
 
-export default function Home() {
+export default function Index() {
   const headerHeight = useHeaderHeight();
-
-    // const device = useCameraDevice('back')
-    // const { hasPermission } = useCameraPermission()
-
 
   return (
     <ThemedView
@@ -35,7 +31,7 @@ export default function Home() {
             }}
           >
             {cards.map((card) => {
-              return <Card key={card.title} {...card} />;
+              return <Card key={card.title} title={card.title}>{card.children}</Card>;
             })}
           </ThemedView>
         </ScrollView>
@@ -45,7 +41,7 @@ export default function Home() {
 }
 
 const cards = [
-  { title: "Camera", shape: "rectangle" },
+  { title: "Camera", children: <CameraView /> },
   { title: "Accelerometer" },
   { title: "Gyroscope" },
   { title: "Magnetometer" },
