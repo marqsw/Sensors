@@ -1,8 +1,7 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedView } from "./ThemedView";
-import { Platform, Pressable, StyleSheet, Text } from "react-native";
+import { Platform, Pressable, StyleSheet } from "react-native";
 import { ThemedText } from "./ThemedText";
-import { useState } from "react";
 import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
 
 type CardProps = {
@@ -14,14 +13,18 @@ export default function Card({ title, children }: CardProps) {
   // shadow settings
   const shadowOffset = 10;
   const lightShadow = useThemeColor({}, "lightShadow");
-  const darkShadow = useThemeColor({}, "darkShadow");
+  const darkShadow =
+    Platform.OS === "ios" ? useThemeColor({}, "darkShadow") : "#000";
 
   const border = useThemeColor({}, "border");
 
   // animation
   const aspectRatio = useSharedValue(2);
   const handlePress = () => {
-    aspectRatio.value = withSpring(3 - aspectRatio.value, {damping: 11});
+    aspectRatio.value = withSpring(3 - aspectRatio.value, {
+      damping: 11,
+      mass: 0.8,
+    });
   };
 
   const content = children ? (
@@ -34,7 +37,7 @@ export default function Card({ title, children }: CardProps) {
     <Pressable onPress={handlePress}>
       <Animated.View
         style={{
-          aspectRatio: aspectRatio
+          aspectRatio: aspectRatio,
         }}
       >
         <ThemedView
@@ -76,7 +79,7 @@ export default function Card({ title, children }: CardProps) {
 const styles = StyleSheet.create({
   shadow: {
     borderRadius: 40,
-    // shadowRadius: 12,
+    shadowRadius: 12,
     shadowOpacity: 1,
     alignItems: "center",
     justifyContent: "center",

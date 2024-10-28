@@ -31,7 +31,11 @@ export default function Index() {
             }}
           >
             {cards.map((card) => {
-              return <Card key={card.title} title={card.title}>{card.children}</Card>;
+              return (
+                <Card key={card.title} title={card.title}>
+                  {card.children}
+                </Card>
+              );
             })}
           </ThemedView>
         </ScrollView>

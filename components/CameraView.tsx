@@ -1,4 +1,4 @@
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import {
   Camera,
   useCameraDevice,
@@ -12,8 +12,7 @@ export default function CameraView() {
 
   const device = useCameraDevice("back");
 
-
-  return device == null || (!hasPermission) ? (
+  return device == null || !hasPermission ? (
     <ThemedText>Please enable camera in Settings</ThemedText>
   ) : (
     <Camera style={StyleSheet.absoluteFill} device={device} isActive={true} />
