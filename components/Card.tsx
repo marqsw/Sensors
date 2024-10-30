@@ -1,8 +1,7 @@
-import { useThemeColor } from "@/hooks/useThemeColor";
-import { ThemedView } from "./ThemedView";
-import { Platform, Pressable, StyleSheet } from "react-native";
+import { Pressable } from "react-native";
 import { ThemedText } from "./ThemedText";
 import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
+import Shadow from "./Shadow";
 
 type CardProps = {
   title?: string;
@@ -10,20 +9,10 @@ type CardProps = {
 };
 
 export default function Card({ title, children }: CardProps) {
-  // shadow settings
-  const shadowOffset = 10;
-  const lightShadow = useThemeColor({}, "lightShadow");
-  const darkShadow =
-    Platform.OS === "ios" ? useThemeColor({}, "darkShadow") : "#000";
-
-  const border = useThemeColor({}, "border");
-
-  // animation
   const aspectRatio = useSharedValue(2);
   const handlePress = () => {
     aspectRatio.value = withSpring(3 - aspectRatio.value, {
       damping: 11,
-      mass: 0.8,
     });
   };
 
@@ -40,49 +29,8 @@ export default function Card({ title, children }: CardProps) {
           aspectRatio: aspectRatio,
         }}
       >
-        <ThemedView
-          style={[
-            styles.shadow,
-            {
-              shadowColor: darkShadow,
-              shadowOffset: { height: shadowOffset, width: shadowOffset },
-              flex: 1,
-              borderWidth: Platform.OS === "android" ? 1 : 0,
-              borderColor: border,
-              overflow: "hidden",
-            },
-          ]}
-        >
-          {Platform.OS === "ios" ? (
-            <ThemedView
-              style={[
-                styles.shadow,
-                {
-                  shadowColor: lightShadow,
-                  shadowOffset: { height: -shadowOffset, width: -shadowOffset },
-                  width: "100%",
-                  height: "100%",
-                },
-              ]}
-            >
-              {content}
-            </ThemedView>
-          ) : (
-            <>{content}</>
-          )}
-        </ThemedView>
+        <Shadow>{content}</Shadow>
       </Animated.View>
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  shadow: {
-    borderRadius: 40,
-    shadowRadius: 12,
-    shadowOpacity: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 20,
-  },
-});
