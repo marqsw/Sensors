@@ -1,10 +1,12 @@
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { ScrollView } from "react-native";
 import { useHeaderHeight } from "@react-navigation/elements";
 import Card from "@/components/Card";
 import CameraView from "@/components/CameraView";
-
+import ControlPanel from "@/components/ControlPanel";
+import { Camera } from "react-native-vision-camera";
+import { View } from "react-native";
 const gapSize = 25;
 
 export default function Index() {
@@ -12,33 +14,36 @@ export default function Index() {
 
   return (
     <ThemedView
-      style={{
-        paddingTop: headerHeight,
-      }}
+      style={[
+        {
+          paddingTop: headerHeight,
+        },
+        StyleSheet.absoluteFill,
+      ]}
     >
-      <SafeAreaView>
-        <ScrollView
+      <SafeAreaView style={{ flex: 1 }}>
+        <View
           style={{
-            minHeight: "100%",
+            flex: 7,
+            // backgroundColor: "green",
           }}
-          showsVerticalScrollIndicator={false}
         >
-          <ThemedView
-            style={{
-              margin: gapSize,
-              gap: gapSize,
-              flexDirection: "column",
-            }}
-          >
-            {cards.map((card) => {
-              return (
-                <Card key={card.title} title={card.title}>
-                  {card.children}
-                </Card>
-              );
-            })}
-          </ThemedView>
-        </ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View
+              style={{
+                margin: gapSize,
+                gap: gapSize,
+              }}
+            >
+              <Card children={<CameraView />} />
+              <Card title="Accelerometer" />
+              <Card title="Gyroscope" />
+              <Card title="Magnetometer" />
+              <Card title="Barometer" />
+            </View>
+          </ScrollView>
+        </View>
+        <ControlPanel />
       </SafeAreaView>
     </ThemedView>
   );
