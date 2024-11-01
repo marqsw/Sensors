@@ -22,11 +22,7 @@ export default function Index() {
       ]}
     >
       <SafeAreaView style={{ flex: 1 }}>
-        <View
-          style={{
-            // backgroundColor: "green",
-          }}
-        >
+        <View>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View
               style={{
@@ -47,4 +43,3 @@ export default function Index() {
     </ThemedView>
   );
 }
-

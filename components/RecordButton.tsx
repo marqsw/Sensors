@@ -9,16 +9,20 @@ import Animated, {
 type RecordButtonProps = {
   buttonSize: number;
   recording: boolean;
+  enabled?: boolean;
   toggleRecording: () => void;
 };
 
 export default function RecordButton({
   buttonSize,
   recording,
+  enabled,
   toggleRecording,
 }: RecordButtonProps) {
-  const size = useSharedValue(buttonSize * 0.8);
-  const borderRadius = useSharedValue(size.value / 2);
+  const size = useSharedValue(recording ? buttonSize * 0.4 : buttonSize * 0.8);
+  const borderRadius = useSharedValue(
+    recording ? buttonSize * 0.4 * 0.2 : size.value / 2
+  );
   const borderColor = useThemeColor({}, "text");
 
   const handleOnPressIn = () => {
@@ -26,21 +30,25 @@ export default function RecordButton({
   };
 
   const handleOnPressOut = () => {
-    toggleRecording();
-
-    if (recording) {
+    if (!recording) {
       borderRadius.value = withTiming(buttonSize * 0.4 * 0.2, {
         duration: 200,
       });
       size.value = withSpring(buttonSize * 0.4, { mass: 0.6 });
     } else {
-      borderRadius.value = 25;
+      borderRadius.value = buttonSize / 2;
       size.value = withSpring(buttonSize * 0.8, { mass: 0.6 });
     }
+
+    toggleRecording();
   };
 
   return (
-    <Pressable onPressIn={handleOnPressIn} onPressOut={handleOnPressOut}>
+    <Pressable
+      onPressIn={handleOnPressIn}
+      onPressOut={handleOnPressOut}
+      disabled={!enabled}
+    >
       <View
         style={[
           {
