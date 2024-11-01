@@ -1,8 +1,6 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, StyleSheet } from "react-native";
-import { ThemedText } from "./ThemedText";
-import { useSharedValue, withSpring } from "react-native-reanimated";
 type IconButtonProps = {
   iconName: keyof typeof Ionicons.glyphMap;
   buttonSize: number;

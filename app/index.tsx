@@ -24,7 +24,6 @@ export default function Index() {
       <SafeAreaView style={{ flex: 1 }}>
         <View
           style={{
-            flex: 7,
             // backgroundColor: "green",
           }}
         >
@@ -49,10 +48,3 @@ export default function Index() {
   );
 }
 
-const cards = [
-  { title: "Camera", children: <CameraView /> },
-  { title: "Accelerometer" },
-  { title: "Gyroscope" },
-  { title: "Magnetometer" },
-  { title: "Barometer" },
-];

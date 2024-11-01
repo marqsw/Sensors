@@ -7,7 +7,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 type RecordButtonProps = {
-  buttonSize: number
+  buttonSize: number;
   recording: boolean;
   toggleRecording: () => void;
 };
@@ -22,18 +22,20 @@ export default function RecordButton({
   const borderColor = useThemeColor({}, "text");
 
   const handleOnPressIn = () => {
-    size.value = withSpring(size.value * 0.75);
+    size.value = withSpring(size.value * 0.8);
   };
 
   const handleOnPressOut = () => {
     toggleRecording();
 
     if (recording) {
-      borderRadius.value = withTiming(buttonSize * 0.4 * 0.2 , {duration: 200} );
-      size.value = withSpring(buttonSize * 0.4, {mass: 0.6});
+      borderRadius.value = withTiming(buttonSize * 0.4 * 0.2, {
+        duration: 200,
+      });
+      size.value = withSpring(buttonSize * 0.4, { mass: 0.6 });
     } else {
       borderRadius.value = 25;
-      size.value = withSpring(buttonSize * 0.8, {mass: 0.6});
+      size.value = withSpring(buttonSize * 0.8, { mass: 0.6 });
     }
   };
 
