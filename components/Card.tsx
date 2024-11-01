@@ -38,7 +38,6 @@ export default function Card({ title, children }: CardProps) {
             borderColor: border,
             borderWidth: Platform.OS === "android" ? 1 : 0,
             flex: 1,
-
           }}
         >
           {content}
