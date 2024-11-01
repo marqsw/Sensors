@@ -1,39 +1,39 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 import Animated, {
   useSharedValue,
-  withDecay,
   withSpring,
   withTiming,
 } from "react-native-reanimated";
 
 type RecordButtonProps = {
+  buttonSize: number
   recording: boolean;
   toggleRecording: () => void;
 };
 
 export default function RecordButton({
+  buttonSize,
   recording,
   toggleRecording,
 }: RecordButtonProps) {
-  const size = useSharedValue(50);
+  const size = useSharedValue(buttonSize * 0.8);
   const borderRadius = useSharedValue(size.value / 2);
   const borderColor = useThemeColor({}, "text");
 
   const handleOnPressIn = () => {
-    size.value = withSpring(size.value * 0.8);
+    size.value = withSpring(size.value * 0.75);
   };
 
   const handleOnPressOut = () => {
     toggleRecording();
 
     if (recording) {
-      borderRadius.value = withTiming(5);
-      size.value = withSpring(25);
+      borderRadius.value = withTiming(buttonSize * 0.4 * 0.2 , {duration: 200} );
+      size.value = withSpring(buttonSize * 0.4, {mass: 0.6});
     } else {
       borderRadius.value = 25;
-      size.value = withSpring(50);
+      size.value = withSpring(buttonSize * 0.8, {mass: 0.6});
     }
   };
 
@@ -44,7 +44,7 @@ export default function RecordButton({
           {
             borderColor: borderColor,
             borderWidth: 3,
-            height: 65,
+            height: buttonSize,
             alignItems: "center",
             justifyContent: "center",
             borderRadius: 99999,
