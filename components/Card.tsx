@@ -1,7 +1,8 @@
-import { Pressable } from "react-native";
+import { Platform, Pressable } from "react-native";
 import { ThemedText } from "./ThemedText";
 import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
 import Shadow from "./Shadow";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 type CardProps = {
   title?: string;
@@ -22,6 +23,8 @@ export default function Card({ title, children }: CardProps) {
     <ThemedText type="subtitle">{title}</ThemedText>
   );
 
+  const border = useThemeColor({}, "border");
+
   return (
     <Pressable onPress={handlePress}>
       <Animated.View
@@ -29,7 +32,17 @@ export default function Card({ title, children }: CardProps) {
           aspectRatio: aspectRatio,
         }}
       >
-        <Shadow>{content}</Shadow>
+        <Shadow
+          style={{
+            borderRadius: 40,
+            borderColor: border,
+            borderWidth: Platform.OS === "android" ? 1 : 0,
+            flex: 1,
+
+          }}
+        >
+          {content}
+        </Shadow>
       </Animated.View>
     </Pressable>
   );
