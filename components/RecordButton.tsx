@@ -16,14 +16,13 @@ type RecordButtonProps = {
 export default function RecordButton({
   buttonSize,
   recording,
-  enabled,
+  enabled = true,
   toggleRecording,
 }: RecordButtonProps) {
   const size = useSharedValue(recording ? buttonSize * 0.4 : buttonSize * 0.8);
   const borderRadius = useSharedValue(
     recording ? buttonSize * 0.4 * 0.2 : size.value / 2
   );
-  const borderColor = useThemeColor({}, "text");
 
   const handleOnPressIn = () => {
     size.value = withSpring(size.value * 0.8);
@@ -52,13 +51,14 @@ export default function RecordButton({
       <View
         style={[
           {
-            borderColor: borderColor,
+            borderColor: "white",
             borderWidth: 3,
             height: buttonSize,
             alignItems: "center",
             justifyContent: "center",
             borderRadius: 99999,
             aspectRatio: 1,
+            opacity: enabled ? 1 : 0.5
           },
         ]}
       >

@@ -1,6 +1,6 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import RecordButton from "./RecordButton";
 import { BlurView } from "@react-native-community/blur";
 import IconButton from "./IconButton";
@@ -10,28 +10,64 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import { SelectionModeContext } from "./SelectionModeContext";
+import { RecordingModeContext } from "./RecordingModeContext";
 
-export default function ControlPanel() {
+type ControlPanelProps = {
+  setSelectionMode: (selectionMode: boolean) => void;
+  setRecordingMode: (recordingMode: boolean) => void;
+};
+
+export default function ControlPanel({
+  setSelectionMode,
+  setRecordingMode,
+}: ControlPanelProps) {
   const borderColor = useThemeColor({}, "border");
+  const textColor = useThemeColor({}, 'text')
   const buttonSize = 65;
-  const [recording, setRecording] = useState(false);
   const [expanded, setExpanded] = useState(true);
 
-  const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
   const contentOpacity = useSharedValue(1);
   const height = useSharedValue(15);
+  const width = useSharedValue(100);
 
+  const selectionMode = useContext(SelectionModeContext);
+  const recordingMode = useContext(RecordingModeContext);
+  
   const controlPanelStyle = useAnimatedStyle(() => {
     return {
       borderColor: borderColor,
-      borderTopWidth: 1,
+      borderRadius: 40,
+      overflow: "hidden",
+      borderWidth: 1,
       height: `${height.value}%`,
+      width: `${width.value}%`,
+      margin: 15,
     };
   });
 
+  const shadowBackgroundStyle = useAnimatedStyle(() => {
+    return {
+      backgroundColor: "#000",
+      opacity: contentOpacity.value * 0.4,
+    };
+  });
+
+  const controlPanelIconStyle = useAnimatedStyle(() => {
+    return {
+      opacity: 1 - contentOpacity.value,
+      position: 'absolute',
+      alignContent: 'center',
+      justifyContent: 'center',
+      alignSelf: 'center'
+    }
+  })
+
   useEffect(() => {
     contentOpacity.value = withTiming(expanded ? 1 : 0);
-    height.value = withSpring(expanded ? 20 : 5);
+    height.value = withSpring(expanded ? 20 : 10, { damping: 12, mass: 0.8 });
+    width.value = withSpring(expanded ? 90 : 20, { damping: 12, mass: 0.8 });
+
   }, [expanded]);
 
   return (
@@ -41,26 +77,34 @@ export default function ControlPanel() {
           {
             position: "absolute",
             justifyContent: "flex-end",
+            alignContent: 'center',
+            alignItems: 'center'
           },
           StyleSheet.absoluteFill,
         ]}
       >
+        <Animated.View
+          pointerEvents="none"
+          style={[shadowBackgroundStyle, StyleSheet.absoluteFill]}
+        ></Animated.View>
         {expanded && (
           <Pressable
-            style={StyleSheet.absoluteFill}
+            style={[StyleSheet.absoluteFill]}
             onPress={() => setExpanded(false)}
           />
         )}
 
         <Animated.View style={controlPanelStyle}>
+        <BlurView
+              style={[{ position: "absolute" }, StyleSheet.absoluteFill]}
+              overlayColor="#0000"
+              blurAmount={100}
+            />
+
           <Pressable
             style={StyleSheet.absoluteFill}
             onPress={() => setExpanded(true)}
           >
-            <BlurView
-              style={[{ position: "absolute" }, StyleSheet.absoluteFill]}
-              overlayColor="#0000"
-            />
             <Animated.View
               style={[
                 {
@@ -72,15 +116,34 @@ export default function ControlPanel() {
                 StyleSheet.absoluteFill,
               ]}
             >
-              <IconButton buttonSize={buttonSize} iconName="albums-outline" />
+              <IconButton
+                buttonSize={buttonSize}
+                iconName={selectionMode ? "albums" : "albums-outline"}
+                enabled={expanded && !recordingMode}
+                handleOnPress={() => {
+                  !selectionMode && setExpanded(false);
+                  setSelectionMode(!selectionMode);
+                }}
+              />
               <RecordButton
                 buttonSize={buttonSize}
-                recording={recording}
-                enabled={expanded}
-                toggleRecording={() => setRecording((prevState) => !prevState)}
+                recording={recordingMode}
+                enabled={expanded && !selectionMode}
+                toggleRecording={() => setRecordingMode(!recordingMode)}
               />
-              <IconButton buttonSize={buttonSize} iconName="close-outline" />
+              <IconButton
+                buttonSize={buttonSize}
+                iconName="close-outline"
+                enabled={expanded && !recordingMode}
+              />
             </Animated.View>
+
+            <Animated.View style={[controlPanelIconStyle, StyleSheet.absoluteFill]} pointerEvents="none">
+              <IconButton iconName="videocam" iconColor={textColor} buttonSize={buttonSize}></IconButton>
+            </Animated.View>
+
+
+
           </Pressable>
         </Animated.View>
       </View>
