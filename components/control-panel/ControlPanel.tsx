@@ -10,8 +10,8 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import { SelectionModeContext } from "./SelectionModeContext";
-import { RecordingModeContext } from "./RecordingModeContext";
+import { SelectionModeContext } from "../context/SelectionModeContext";
+import { RecordingModeContext } from "../context/RecordingModeContext";
 
 type ControlPanelProps = {
   setSelectionMode: (selectionMode: boolean) => void;

@@ -10,8 +10,8 @@ import Animated, {
 import Shadow from "./Shadow";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { useContext, useEffect, useState } from "react";
-import { SelectionModeContext } from "./SelectionModeContext";
-import { RecordingModeContext } from "./RecordingModeContext";
+import { SelectionModeContext } from "./context/SelectionModeContext";
+import { RecordingModeContext } from "./context/RecordingModeContext";
 import { DarkTheme } from "@react-navigation/native";
 import { BlurView } from "@react-native-community/blur";
 
