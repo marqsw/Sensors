@@ -6,49 +6,50 @@ import Card from "@/components/Card";
 import CameraView from "@/components/CameraView";
 import ControlPanel from "@/components/control-panel/ControlPanel";
 import { View } from "react-native";
-import { SelectionModeContext } from "@/components/context/SelectionModeContext";
 import { Component, useContext, useState } from "react";
-import { RecordingModeContext } from "@/components/context/RecordingModeContext";
+import RecordingProvider from "@/components/context/RecordingProvider";
+import SelectedSensorsProvider from "@/components/context/SelectedSensorsProvider";
+import SelectionModeProvider from "@/components/context/SelectionModeProvider";
 const gapSize = 25;
 
 export default function Index() {
   const headerHeight = useHeaderHeight();
-  const [selectionMode, setSelectionMode] = useState(false)
-  const [recordingMode, setRecordingMode] = useState(false)
 
   return (
-    <RecordingModeContext.Provider value={recordingMode}>
-    <SelectionModeContext.Provider value={selectionMode}>
-            <ThemedView
-              style={[
-                {
-                  paddingTop: headerHeight,
-                },
-                StyleSheet.absoluteFill,
-              ]}
-            >
-              <SafeAreaView style={{ flex: 1 }}>
-                <View>
-                  <ScrollView showsVerticalScrollIndicator={false}>
-                    <View
-                      style={{
-                        margin: gapSize,
-                        gap: gapSize,
-                        paddingBottom: "20%",
-                      }}
-                    >
-                      <Card children={<CameraView />} />
-                      <Card title="Accelerometer" />
-                      <Card title="Gyroscope" />
-                      <Card title="Magnetometer" />
-                      <Card title="Barometer" />
-                    </View>
-                  </ScrollView>
-                </View>
-                <ControlPanel setSelectionMode={setSelectionMode} setRecordingMode={setRecordingMode}/>
-              </SafeAreaView>
-            </ThemedView>
-        </SelectionModeContext.Provider>
-      </RecordingModeContext.Provider>
+    <RecordingProvider>
+      <SelectionModeProvider>
+        <SelectedSensorsProvider>
+          <ThemedView
+            style={[
+              {
+                paddingTop: headerHeight,
+              },
+              StyleSheet.absoluteFill,
+            ]}
+          >
+            <SafeAreaView style={{ flex: 1 }}>
+              <View>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  <View
+                    style={{
+                      margin: gapSize,
+                      gap: gapSize,
+                      paddingBottom: "20%",
+                    }}
+                  >
+                    <Card children={<CameraView />} />
+                    <Card title="Accelerometer" />
+                    <Card title="Gyroscope" />
+                    <Card title="Magnetometer" />
+                    <Card title="Barometer" />
+                  </View>
+                </ScrollView>
+              </View>
+              <ControlPanel/>
+            </SafeAreaView>
+          </ThemedView>
+        </SelectedSensorsProvider>
+      </SelectionModeProvider>
+    </RecordingProvider>
   );
 }

@@ -1,7 +1,6 @@
 import { Platform, Pressable, StyleSheet, useColorScheme } from "react-native";
 import { ThemedText } from "./ThemedText";
 import Animated, {
-  useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withSpring,
@@ -10,10 +9,9 @@ import Animated, {
 import Shadow from "./Shadow";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { useContext, useEffect, useState } from "react";
-import { SelectionModeContext } from "./context/SelectionModeContext";
-import { RecordingModeContext } from "./context/RecordingModeContext";
-import { DarkTheme } from "@react-navigation/native";
-import { BlurView } from "@react-native-community/blur";
+import { SelectionModeContext } from "./context/SelectionModeProvider";
+import { RecordingContext } from "./context/RecordingProvider";
+import { SelectedSensorsContext, SetSelectedSensorsContext } from "./context/SelectedSensorsProvider";
 
 type CardProps = {
   title?: string;
@@ -22,8 +20,12 @@ type CardProps = {
 
 export default function Card({ title, children }: CardProps) {
   const selectionMode = useContext(SelectionModeContext);
-  const recordingMode = useContext(RecordingModeContext);
+  const recording = useContext(RecordingContext);
   const aspectRatio = useSharedValue(2);
+
+
+  const selectedSensors = useContext(SelectedSensorsContext)
+  const setSelectedSensors = useContext(SetSelectedSensorsContext)
 
   const [selected, setSelected] = useState(false);
 
@@ -52,7 +54,7 @@ export default function Card({ title, children }: CardProps) {
 
   useEffect(() => {
     animatedBorderWidth.value =
-      selected && recordingMode
+      selected && recording
         ? withRepeat(withTiming(0, { duration: 1200 }), -1, true)
         : selected
         ? 2
@@ -61,7 +63,7 @@ export default function Card({ title, children }: CardProps) {
           ? 1
           : 0
         : 0;
-  }, [selected, recordingMode]);
+  }, [selected, recording]);
 
   return (
     <Pressable onPress={handlePress}>
@@ -71,11 +73,7 @@ export default function Card({ title, children }: CardProps) {
           borderWidth: animatedBorderWidth,
           borderRadius: 40,
           borderColor:
-            recordingMode && selected
-              ? "red"
-              : selected
-              ? "green"
-              : borderColor,
+            recording && selected ? "red" : selected ? "green" : borderColor,
         }}
       >
         <Shadow

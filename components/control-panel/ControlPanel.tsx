@@ -10,18 +10,16 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import { SelectionModeContext } from "../context/SelectionModeContext";
-import { RecordingModeContext } from "../context/RecordingModeContext";
+import {
+  SelectionModeContext,
+  SetSelectionModeContext,
+} from "../context/SelectionModeProvider";
+import {
+  RecordingContext,
+  SetRecordingContext,
+} from "../context/RecordingProvider";
 
-type ControlPanelProps = {
-  setSelectionMode: (selectionMode: boolean) => void;
-  setRecordingMode: (recordingMode: boolean) => void;
-};
-
-export default function ControlPanel({
-  setSelectionMode,
-  setRecordingMode,
-}: ControlPanelProps) {
+export default function ControlPanel() {
   const borderColor = useThemeColor({}, "border");
   const textColor = useThemeColor({}, "text");
   const buttonSize = 65;
@@ -32,7 +30,10 @@ export default function ControlPanel({
   const width = useSharedValue(100);
 
   const selectionMode = useContext(SelectionModeContext);
-  const recordingMode = useContext(RecordingModeContext);
+  const setSelectionMode = useContext(SetSelectionModeContext);
+
+  const recording = useContext(RecordingContext);
+  const setRecording = useContext(SetRecordingContext);
 
   const controlPanelStyle = useAnimatedStyle(() => {
     return {
@@ -121,7 +122,7 @@ export default function ControlPanel({
               <IconButton
                 buttonSize={buttonSize}
                 iconName={selectionMode ? "albums" : "albums-outline"}
-                enabled={expanded && !recordingMode}
+                enabled={expanded && !recording}
                 handleOnPress={() => {
                   !selectionMode && setExpanded(false);
                   setSelectionMode(!selectionMode);
@@ -129,14 +130,14 @@ export default function ControlPanel({
               />
               <RecordButton
                 buttonSize={buttonSize}
-                recording={recordingMode}
+                recording={recording}
                 enabled={expanded && !selectionMode}
-                toggleRecording={() => setRecordingMode(!recordingMode)}
+                toggleRecording={() => setRecording((prev) => !prev)}
               />
               <IconButton
                 buttonSize={buttonSize}
                 iconName="close-outline"
-                enabled={expanded && !recordingMode}
+                enabled={expanded && !recording}
               />
             </Animated.View>
 
@@ -148,7 +149,7 @@ export default function ControlPanel({
                 iconName={
                   selectionMode
                     ? "checkmark-circle"
-                    : recordingMode
+                    : recording
                     ? "stop-circle"
                     : "videocam"
                 }
