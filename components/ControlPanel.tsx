@@ -23,9 +23,9 @@ export default function ControlPanel({
   setRecordingMode,
 }: ControlPanelProps) {
   const borderColor = useThemeColor({}, "border");
-  const textColor = useThemeColor({}, 'text')
+  const textColor = useThemeColor({}, "text");
   const buttonSize = 65;
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   const contentOpacity = useSharedValue(1);
   const height = useSharedValue(15);
@@ -33,7 +33,7 @@ export default function ControlPanel({
 
   const selectionMode = useContext(SelectionModeContext);
   const recordingMode = useContext(RecordingModeContext);
-  
+
   const controlPanelStyle = useAnimatedStyle(() => {
     return {
       borderColor: borderColor,
@@ -56,18 +56,17 @@ export default function ControlPanel({
   const controlPanelIconStyle = useAnimatedStyle(() => {
     return {
       opacity: 1 - contentOpacity.value,
-      position: 'absolute',
-      alignContent: 'center',
-      justifyContent: 'center',
-      alignSelf: 'center'
-    }
-  })
+      position: "absolute",
+      alignContent: "center",
+      justifyContent: "center",
+      alignSelf: "center",
+    };
+  });
 
   useEffect(() => {
     contentOpacity.value = withTiming(expanded ? 1 : 0);
     height.value = withSpring(expanded ? 20 : 10, { damping: 12, mass: 0.8 });
     width.value = withSpring(expanded ? 90 : 20, { damping: 12, mass: 0.8 });
-
   }, [expanded]);
 
   return (
@@ -77,8 +76,8 @@ export default function ControlPanel({
           {
             position: "absolute",
             justifyContent: "flex-end",
-            alignContent: 'center',
-            alignItems: 'center'
+            alignContent: "center",
+            alignItems: "center",
           },
           StyleSheet.absoluteFill,
         ]}
@@ -95,15 +94,18 @@ export default function ControlPanel({
         )}
 
         <Animated.View style={controlPanelStyle}>
-        <BlurView
-              style={[{ position: "absolute" }, StyleSheet.absoluteFill]}
-              overlayColor="#0000"
-              blurAmount={100}
-            />
+          <BlurView
+            style={[{ position: "absolute" }, StyleSheet.absoluteFill]}
+            overlayColor="#0000"
+            blurAmount={100}
+          />
 
           <Pressable
             style={StyleSheet.absoluteFill}
-            onPress={() => setExpanded(true)}
+            onPress={() => {
+              setExpanded(true);
+              setSelectionMode(false);
+            }}
           >
             <Animated.View
               style={[
@@ -138,12 +140,22 @@ export default function ControlPanel({
               />
             </Animated.View>
 
-            <Animated.View style={[controlPanelIconStyle, StyleSheet.absoluteFill]} pointerEvents="none">
-              <IconButton iconName="videocam" iconColor={textColor} buttonSize={buttonSize}></IconButton>
+            <Animated.View
+              style={[controlPanelIconStyle, StyleSheet.absoluteFill]}
+              pointerEvents="none"
+            >
+              <IconButton
+                iconName={
+                  selectionMode
+                    ? "checkmark-circle"
+                    : recordingMode
+                    ? "stop-circle"
+                    : "videocam"
+                }
+                iconColor={textColor}
+                buttonSize={buttonSize}
+              ></IconButton>
             </Animated.View>
-
-
-
           </Pressable>
         </Animated.View>
       </View>

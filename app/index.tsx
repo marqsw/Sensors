@@ -7,7 +7,7 @@ import CameraView from "@/components/CameraView";
 import ControlPanel from "@/components/ControlPanel";
 import { View } from "react-native";
 import { SelectionModeContext } from "@/components/SelectionModeContext";
-import { useContext, useState } from "react";
+import { Component, useContext, useState } from "react";
 import { RecordingModeContext } from "@/components/RecordingModeContext";
 const gapSize = 25;
 
@@ -17,38 +17,38 @@ export default function Index() {
   const [recordingMode, setRecordingMode] = useState(false)
 
   return (
+    <RecordingModeContext.Provider value={recordingMode}>
     <SelectionModeContext.Provider value={selectionMode}>
-      <RecordingModeContext.Provider value={recordingMode}>
-        <ThemedView
-          style={[
-            {
-              paddingTop: headerHeight,
-            },
-            StyleSheet.absoluteFill,
-          ]}
-        >
-          <SafeAreaView style={{ flex: 1 }}>
-            <View>
-              <ScrollView showsVerticalScrollIndicator={false}>
-                <View
-                  style={{
-                    margin: gapSize,
-                    gap: gapSize,
-                    paddingBottom: "20%",
-                  }}
-                >
-                  <Card children={<CameraView />} />
-                  <Card title="Accelerometer" />
-                  <Card title="Gyroscope" />
-                  <Card title="Magnetometer" />
-                  <Card title="Barometer" />
-                </View>
-              </ScrollView>
-            </View>
-            <ControlPanel setSelectionMode={setSelectionMode} setRecordingMode={setRecordingMode}/>
-          </SafeAreaView>
-        </ThemedView>
+          <ThemedView
+            style={[
+              {
+                paddingTop: headerHeight,
+              },
+              StyleSheet.absoluteFill,
+            ]}
+          >
+            <SafeAreaView style={{ flex: 1 }}>
+              <View>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  <View
+                    style={{
+                      margin: gapSize,
+                      gap: gapSize,
+                      paddingBottom: "20%",
+                    }}
+                  >
+                    <Card children={<CameraView />} />
+                    <Card title="Accelerometer" />
+                    <Card title="Gyroscope" />
+                    <Card title="Magnetometer" />
+                    <Card title="Barometer" />
+                  </View>
+                </ScrollView>
+              </View>
+              <ControlPanel setSelectionMode={setSelectionMode} setRecordingMode={setRecordingMode}/>
+            </SafeAreaView>
+          </ThemedView>
+        </SelectionModeContext.Provider>
       </RecordingModeContext.Provider>
-    </SelectionModeContext.Provider>
   );
 }
