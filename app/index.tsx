@@ -35,6 +35,7 @@ export default function Index() {
                       margin: gapSize,
                       gap: gapSize,
                       paddingBottom: "20%",
+                      alignItems: "center",
                     }}
                   >
                     <Card children={<CameraView />} />
@@ -45,7 +46,7 @@ export default function Index() {
                   </View>
                 </ScrollView>
               </View>
-              <ControlPanel/>
+              <ControlPanel />
             </SafeAreaView>
           </ThemedView>
         </SelectedSensorsProvider>

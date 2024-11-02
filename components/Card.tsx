@@ -1,6 +1,7 @@
 import { Platform, Pressable, StyleSheet, useColorScheme } from "react-native";
 import { ThemedText } from "./ThemedText";
 import Animated, {
+  useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withSpring,
@@ -11,7 +12,10 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import { useContext, useEffect, useState } from "react";
 import { SelectionModeContext } from "./context/SelectionModeProvider";
 import { RecordingContext } from "./context/RecordingProvider";
-import { SelectedSensorsContext, SetSelectedSensorsContext } from "./context/SelectedSensorsProvider";
+import {
+  SelectedSensorsContext,
+  SetSelectedSensorsContext,
+} from "./context/SelectedSensorsProvider";
 
 type CardProps = {
   title?: string;
@@ -23,9 +27,8 @@ export default function Card({ title, children }: CardProps) {
   const recording = useContext(RecordingContext);
   const aspectRatio = useSharedValue(2);
 
-
-  const selectedSensors = useContext(SelectedSensorsContext)
-  const setSelectedSensors = useContext(SetSelectedSensorsContext)
+  const selectedSensors = useContext(SelectedSensorsContext);
+  const setSelectedSensors = useContext(SetSelectedSensorsContext);
 
   const [selected, setSelected] = useState(false);
 
@@ -35,7 +38,7 @@ export default function Card({ title, children }: CardProps) {
     if (selectionMode) {
       setSelected((prev) => !prev);
     } else {
-      aspectRatio.value = withSpring(3 - aspectRatio.value, {
+      aspectRatio.value = withSpring(aspectRatio.value === 1 ? 2 : 1, {
         damping: 11,
         mass: 0.8,
       });
@@ -51,11 +54,26 @@ export default function Card({ title, children }: CardProps) {
   const borderColor = useThemeColor({}, "border");
 
   const animatedBorderWidth = useSharedValue(1);
+  const animatedWidth = useSharedValue(100);
+
+  const animatedWidthStyle = useAnimatedStyle(() => {
+    return {
+      width: `${animatedWidth.value}%`,
+    };
+  });
+
+  const handleOnPressIn = () => {
+    animatedWidth.value = withSpring(95);
+  };
+
+  const handleOnPressOut = () => {
+    animatedWidth.value = withSpring(100, { damping: 15 });
+  };
 
   useEffect(() => {
     animatedBorderWidth.value =
       selected && recording
-        ? withRepeat(withTiming(0, { duration: 1200 }), -1, true)
+        ? withRepeat(withTiming(0, { duration: 700 }), -1, true)
         : selected
         ? 2
         : Platform.OS == "android"
@@ -66,15 +84,22 @@ export default function Card({ title, children }: CardProps) {
   }, [selected, recording]);
 
   return (
-    <Pressable onPress={handlePress}>
+    <Pressable
+      onPress={handlePress}
+      onPressIn={handleOnPressIn}
+      onPressOut={handleOnPressOut}
+    >
       <Animated.View
-        style={{
-          aspectRatio: aspectRatio,
-          borderWidth: animatedBorderWidth,
-          borderRadius: 40,
-          borderColor:
-            recording && selected ? "red" : selected ? "green" : borderColor,
-        }}
+        style={[
+          animatedWidthStyle,
+          {
+            aspectRatio: aspectRatio,
+            borderWidth: animatedBorderWidth,
+            borderRadius: 40,
+            borderColor:
+              recording && selected ? "red" : selected ? "green" : borderColor,
+          },
+        ]}
       >
         <Shadow
           style={{
