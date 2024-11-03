@@ -9,7 +9,7 @@ import Animated, {
 } from "react-native-reanimated";
 import Shadow from "./Shadow";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { useContext, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { SelectionModeContext } from "./context/SelectionModeProvider";
 import { RecordingContext } from "./context/RecordingProvider";
 import {
@@ -17,9 +17,15 @@ import {
   SetSelectedSensorsContext,
 } from "./context/SelectedSensorsProvider";
 
+
+type SensorProps = {
+  expanded: boolean
+}
+
+
 type CardProps = {
   title?: string;
-  children?: React.ReactNode;
+  children?: ReactElement<SensorProps>;
 };
 
 export default function Card({ title, children }: CardProps) {
@@ -30,6 +36,8 @@ export default function Card({ title, children }: CardProps) {
   const selectedSensors = useContext(SelectedSensorsContext);
   const setSelectedSensors = useContext(SetSelectedSensorsContext);
 
+
+  const [expanded, setExpanded] = useState(false)
   const [selected, setSelected] = useState(false);
 
   const lightMode = useColorScheme() === "light";
@@ -38,7 +46,9 @@ export default function Card({ title, children }: CardProps) {
     if (selectionMode) {
       setSelected((prev) => !prev);
     } else {
-      aspectRatio.value = withSpring(aspectRatio.value === 1 ? 2 : 1, {
+
+      setExpanded(prev => !prev)
+      aspectRatio.value = withSpring(expanded ? 2 : 1, {
         damping: 11,
         mass: 0.8,
       });

@@ -136,7 +136,7 @@ export default function ControlPanel() {
               />
               <IconButton
                 buttonSize={buttonSize}
-                iconName="close-outline"
+                iconName="options-outline"
                 enabled={expanded && !recording}
               />
             </Animated.View>
