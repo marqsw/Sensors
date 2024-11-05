@@ -11,7 +11,7 @@ import SelectedSensorsProvider from "@/components/context/SelectedSensorsProvide
 import SelectionModeProvider from "@/components/context/SelectionModeProvider";
 import SensorView from "@/components/SensorView";
 import DataPointProvider from "@/components/context/DataPointProvider";
-const gapSize = 25;
+const gapSize = 40;
 
 export default function Index() {
   const headerHeight = useHeaderHeight();
@@ -34,7 +34,7 @@ export default function Index() {
                   <ScrollView showsVerticalScrollIndicator={true}>
                     <View
                       style={{
-                        margin: gapSize,
+                        margin: gapSize / 2,
                         gap: gapSize,
                         paddingBottom: "20%",
                         alignItems: "center",

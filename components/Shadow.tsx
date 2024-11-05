@@ -13,6 +13,19 @@ export default function Shadow({ style, children }: ShadowProps) {
   const darkShadow =
     Platform.OS === "ios" ? useThemeColor({}, "darkShadow") : "#000";
 
+  const backgroundColor = useThemeColor({}, "background")
+
+
+  const styles = StyleSheet.create({
+    shadow: {
+      shadowRadius: 15,
+      shadowOpacity: 1,
+      elevation: 20,
+      backgroundColor: backgroundColor,
+    },
+  });
+
+
   return (
     <View
       style={[
@@ -21,12 +34,12 @@ export default function Shadow({ style, children }: ShadowProps) {
         {
           shadowColor: darkShadow,
           shadowOffset: { height: shadowOffset, width: shadowOffset },
-          overflow: "hidden",
         },
       ]}
     >
       <ThemedView
         style={[
+          style,
           styles.shadow,
           StyleSheet.absoluteFill,
           {
@@ -35,16 +48,13 @@ export default function Shadow({ style, children }: ShadowProps) {
           },
         ]}
       >
-        {children}
+        <View
+
+          style={[{
+            overflow: "hidden"
+          }, style, StyleSheet.absoluteFill]}>{children}</View>
       </ThemedView>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  shadow: {
-    shadowRadius: 12,
-    shadowOpacity: 1,
-    elevation: 20,
-  },
-});
