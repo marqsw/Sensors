@@ -21,7 +21,6 @@ import {
 
 export default function ControlPanel() {
   const borderColor = useThemeColor({}, "border");
-  const textColor = useThemeColor({}, "text");
   const buttonSize = 65;
   const [expanded, setExpanded] = useState(false);
 
@@ -81,14 +80,16 @@ export default function ControlPanel() {
             alignItems: "center",
           },
           StyleSheet.absoluteFill,
-        ]
-      }
-      pointerEvents="box-none"
+        ]}
+        pointerEvents="box-none"
       >
+        {/* Dim Background */}
         <Animated.View
           pointerEvents="none"
           style={[shadowBackgroundStyle, StyleSheet.absoluteFill]}
-        ></Animated.View>
+        />
+
+        {/* Detect out of bound taps */}
         {expanded && (
           <Pressable
             style={[StyleSheet.absoluteFill]}
@@ -96,13 +97,16 @@ export default function ControlPanel() {
           />
         )}
 
+        {/* Control Panel */}
         <Animated.View style={controlPanelStyle}>
+          {/* Blurred background */}
           <BlurView
             style={[{ position: "absolute" }, StyleSheet.absoluteFill]}
-            overlayColor="#0000"
-            blurAmount={100}
+            // overlayColor="#0000"
+            blurAmount={5}
           />
 
+          {/* Detect tap on Control Panel */}
           <Pressable
             style={StyleSheet.absoluteFill}
             onPress={() => {
@@ -110,6 +114,7 @@ export default function ControlPanel() {
               setSelectionMode(false);
             }}
           >
+            {/* Button containers */}
             <Animated.View
               style={[
                 {
@@ -121,6 +126,7 @@ export default function ControlPanel() {
                 StyleSheet.absoluteFill,
               ]}
             >
+              {/* Selection button */}
               <IconButton
                 buttonSize={buttonSize}
                 iconName={selectionMode ? "albums" : "albums-outline"}
@@ -130,12 +136,16 @@ export default function ControlPanel() {
                   setSelectionMode(!selectionMode);
                 }}
               />
+
+              {/* Record button */}
               <RecordButton
                 buttonSize={buttonSize}
                 recording={recording}
                 enabled={expanded && !selectionMode}
                 toggleRecording={() => setRecording((prev) => !prev)}
               />
+
+              {/* Options button */}
               <IconButton
                 buttonSize={buttonSize}
                 iconName="options-outline"
@@ -143,6 +153,7 @@ export default function ControlPanel() {
               />
             </Animated.View>
 
+            {/* Icon shown on collapsed */}
             <Animated.View
               style={[controlPanelIconStyle, StyleSheet.absoluteFill]}
               pointerEvents="none"
@@ -155,7 +166,6 @@ export default function ControlPanel() {
                     ? "stop-circle"
                     : "videocam"
                 }
-                iconColor={textColor}
                 buttonSize={buttonSize}
               ></IconButton>
             </Animated.View>
