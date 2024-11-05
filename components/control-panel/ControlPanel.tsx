@@ -103,7 +103,7 @@ export default function ControlPanel() {
           <BlurView
             style={[{ position: "absolute" }, StyleSheet.absoluteFill]}
             // overlayColor="#0000"
-            blurAmount={5}
+            blurAmount={10}
           />
 
           {/* Detect tap on Control Panel */}

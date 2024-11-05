@@ -11,52 +11,54 @@ import SelectedSensorsProvider from "@/components/context/SelectedSensorsProvide
 import SelectionModeProvider from "@/components/context/SelectionModeProvider";
 import SensorView from "@/components/SensorView";
 import DataPointProvider from "@/components/context/DataPointProvider";
+import GraphTestView from "@/components/GraphTestView";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import ContextProvider from "@/components/context/ContextProvider";
+
 const gapSize = 40;
 
 export default function Index() {
   const headerHeight = useHeaderHeight();
 
   return (
-    <RecordingProvider>
-      <SelectionModeProvider>
-        <SelectedSensorsProvider>
-          <DataPointProvider>
-            <ThemedView
-              style={[
-                {
-                  paddingTop: headerHeight,
-                },
-                StyleSheet.absoluteFill,
-              ]}
-            >
-              <SafeAreaView style={{ flex: 1 }}>
-                <View>
-                  <ScrollView showsVerticalScrollIndicator={true}>
-                    <View
-                      style={{
-                        margin: gapSize / 2,
-                        gap: gapSize,
-                        paddingBottom: "20%",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Card children={<CameraView />} />
-                      {/* <Card children={<SensorView />} /> */}
-                      <Card title="Barometer" />
-                      <Card title="DeviceMotion" />
-                      <Card title="Gyroscope" />
-                      <Card title="Magnetometer" />
-                      <Card title="LightSensor" />
-                      <Card title="Pedometer" />
-                    </View>
-                  </ScrollView>
+    <ContextProvider>
+      <GestureHandlerRootView>
+        <ThemedView
+          style={[
+            {
+              paddingTop: headerHeight,
+            },
+            StyleSheet.absoluteFill,
+          ]}
+        >
+          <SafeAreaView style={{ flex: 1 }}>
+            <View>
+              <ScrollView showsVerticalScrollIndicator={true}>
+                <View
+                  style={{
+                    margin: gapSize / 2,
+                    gap: gapSize,
+                    paddingBottom: "25%",
+                    alignItems: "center",
+                  }}
+                >
+                  <Card children={<CameraView />} />
+                  <Card children={<SensorView />} />
+                  <Card children={<GraphTestView />} />
+                  <Card title="Accelerometer" />
+                  <Card title="Barometer" />
+                  <Card title="DeviceMotion" />
+                  <Card title="Gyroscope" />
+                  <Card title="Magnetometer" />
+                  <Card title="LightSensor" />
+                  <Card title="Pedometer" />
                 </View>
-                <ControlPanel />
-              </SafeAreaView>
-            </ThemedView>
-          </DataPointProvider>
-        </SelectedSensorsProvider>
-      </SelectionModeProvider>
-    </RecordingProvider>
+              </ScrollView>
+            </View>
+            <ControlPanel />
+          </SafeAreaView>
+        </ThemedView>
+      </GestureHandlerRootView>
+    </ContextProvider>
   );
 }
