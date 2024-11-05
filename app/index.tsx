@@ -41,7 +41,7 @@ export default function Index() {
                       }}
                     >
                       <Card children={<CameraView />} />
-                      <Card children={<SensorView />} />
+                      {/* <Card children={<SensorView />} /> */}
                       <Card title="Barometer" />
                       <Card title="DeviceMotion" />
                       <Card title="Gyroscope" />

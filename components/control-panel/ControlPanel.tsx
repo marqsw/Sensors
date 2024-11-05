@@ -81,7 +81,9 @@ export default function ControlPanel() {
             alignItems: "center",
           },
           StyleSheet.absoluteFill,
-        ]}
+        ]
+      }
+      pointerEvents="box-none"
       >
         <Animated.View
           pointerEvents="none"
