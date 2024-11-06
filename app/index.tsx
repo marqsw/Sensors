@@ -6,12 +6,7 @@ import Card from "@/components/Card";
 import CameraView from "@/components/CameraView";
 import ControlPanel from "@/components/control-panel/ControlPanel";
 import { View } from "react-native";
-import RecordingProvider from "@/components/context/RecordingProvider";
-import SelectedSensorsProvider from "@/components/context/SelectedSensorsProvider";
-import SelectionModeProvider from "@/components/context/SelectionModeProvider";
 import SensorView from "@/components/SensorView";
-import DataPointProvider from "@/components/context/DataPointProvider";
-import GraphTestView from "@/components/GraphTestView";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ContextProvider from "@/components/context/ContextProvider";
 
@@ -44,10 +39,8 @@ export default function Index() {
                 >
                   <Card children={<CameraView />} />
                   <Card children={<SensorView />} />
-                  <Card children={<GraphTestView />} />
                   <Card title="Accelerometer" />
                   <Card title="Barometer" />
-                  <Card title="DeviceMotion" />
                   <Card title="Gyroscope" />
                   <Card title="Magnetometer" />
                   <Card title="LightSensor" />
