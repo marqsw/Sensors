@@ -10,7 +10,7 @@ export default function CameraView() {
   const { hasPermission, requestPermission } = useCameraPermission();
   if (!hasPermission) requestPermission();
 
-  const device = useCameraDevice("front");
+  const device = useCameraDevice("back");
 
   return device == null || !hasPermission ? (
     <View

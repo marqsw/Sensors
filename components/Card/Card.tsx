@@ -1,5 +1,5 @@
 import { Platform, Pressable, StyleSheet, useColorScheme } from "react-native";
-import { ThemedText } from "./ThemedText";
+import { ThemedText } from "../ThemedText";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -7,25 +7,20 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import Shadow from "./Shadow";
+import Shadow from "../Shadow";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ReactElement, useContext, useEffect, useState } from "react";
-import { SelectionModeContext } from "./context/SelectionModeProvider";
-import { RecordingContext } from "./context/RecordingProvider";
+import { SelectionModeContext } from "../context/SelectionModeProvider";
+import { RecordingContext } from "../context/RecordingProvider";
 import {
   SelectedSensorsContext,
   SetSelectedSensorsContext,
-} from "./context/SelectedSensorsProvider";
-
-
-type SensorProps = {
-  expanded: boolean
-}
+} from "../context/SelectedSensorsProvider";
 
 
 type CardProps = {
   title?: string;
-  children?: ReactElement<SensorProps>;
+  children?: React.ReactNode;
 };
 
 export default function Card({ title, children }: CardProps) {

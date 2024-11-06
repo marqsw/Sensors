@@ -5,10 +5,11 @@ import { Subscription } from "expo-sensors/build/Pedometer";
 import { ThemedText } from "./ThemedText";
 import { GraphPoint, LineGraph } from "react-native-graph";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import Card from "./Card/Card";
 
 export default function SensorView() {
-  const dataPointNum = 20;
-  const updateInterval = 200;
+  const dataPointNum = 50;
+  const updateInterval = 50;
   const milisecond = useRef(0);
 
   const textColor = useThemeColor({}, "text");
@@ -28,37 +29,42 @@ export default function SensorView() {
     zHist: GraphPoint[];
   }
 
-
-  // let emptyGraphPoints = new Array<GraphPoint[]>()
-
-  // for (let i = 0; i < dataPointNum; i++) {
-  //   emptyGraphPoints.concat({value: 0, date: })
-  // }
-
-
   const graphData = useRef<GraphPoints>({
-    xHist: Array(dataPointNum).fill({ value: 0, date: new Date(0) }),
-    yHist: Array(dataPointNum).fill({ value: 0, date: new Date(0) }),
-    zHist: Array(dataPointNum).fill({ value: 0, date: new Date(0) }),
+    xHist: [],
+    yHist: [],
+    zHist: [],
   });
 
   useEffect(() => {
     const interval = setInterval(() => {
-      graphData.current.xHist = graphData.current.xHist
-        .slice(-dataPointNum)
-        .concat({ value: x, date: new Date(milisecond.current) });
-      graphData.current.yHist = graphData.current.yHist
-        .slice(-dataPointNum)
-        .concat({ value: y, date: new Date(milisecond.current) });
-      graphData.current.zHist = graphData.current.zHist
-        .slice(-dataPointNum)
-        .concat({ value: z, date: new Date(milisecond.current) });
+      graphData.current.xHist = graphData.current.xHist.concat({
+        value: x,
+        date: new Date(milisecond.current),
+      });
+      graphData.current.yHist = graphData.current.yHist.concat({
+        value: y,
+        date: new Date(milisecond.current),
+      });
+      graphData.current.zHist = graphData.current.zHist.concat({
+        value: z,
+        date: new Date(milisecond.current),
+      });
+
+      [
+        graphData.current.xHist,
+        graphData.current.yHist,
+        graphData.current.zHist,
+      ].forEach((hist) => {
+        while (hist.length > dataPointNum) {
+          hist.shift();
+        }
+      });
 
       milisecond.current += updateInterval;
     }, updateInterval);
 
     return () => clearInterval(interval);
-  }, [graphData]);
+  }, [milisecond.current]);
 
   // Subscription
   const [subscription, setSubscription] = useState<Subscription | null>(null);
@@ -80,21 +86,40 @@ export default function SensorView() {
   return (
     <View
       style={[
-        { alignItems: "center", justifyContent: "center" },
+        { alignItems: "center", justifyContent: "center", padding: 20 },
         StyleSheet.absoluteFill,
       ]}
     >
-      <ThemedText type="subtitle">Accelerometer</ThemedText>
+      <ThemedText style={{ flex: 2 }} type="subtitle">
+        Accelerometer
+      </ThemedText>
 
-      <LineGraph
-        points={graphData.current.xHist}
-        color={textColor}
-        animated={true}
-      />
-
-      {/* <ThemedText>{graphData.current.xHist[dataPointNum - 1].date.valueOf()}</ThemedText>
-      <ThemedText>{graphData.current.yHist[dataPointNum - 1].date.toString()}</ThemedText>
-      <ThemedText>{graphData.current.zHist[dataPointNum - 1].date.toString()}</ThemedText> */}
+      <View style={{ flex: 3, width: "100%" }}>
+        <View style={{ flex: 1, width: "100%" }}>
+          <LineGraph
+            points={graphData.current.xHist}
+            color={textColor}
+            animated={false}
+            style={StyleSheet.absoluteFill}
+          />
+        </View>
+        <View style={{ flex: 1, width: "100%" }}>
+          <LineGraph
+            points={graphData.current.yHist}
+            color={textColor}
+            animated={false}
+            style={StyleSheet.absoluteFill}
+          />
+        </View>
+        <View style={{ flex: 1, width: "100%" }}>
+          <LineGraph
+            points={graphData.current.zHist}
+            color={textColor}
+            animated={false}
+            style={StyleSheet.absoluteFill}
+          />
+        </View>
+      </View>
     </View>
   );
 }
