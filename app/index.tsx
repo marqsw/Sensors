@@ -13,19 +13,10 @@ import ContextProvider from "@/components/context/ContextProvider";
 const gapSize = 40;
 
 export default function Index() {
-  const headerHeight = useHeaderHeight();
-
   return (
     <ContextProvider>
       <GestureHandlerRootView>
-        <ThemedView
-          style={[
-            {
-              paddingTop: headerHeight,
-            },
-            StyleSheet.absoluteFill,
-          ]}
-        >
+        <ThemedView style={StyleSheet.absoluteFill}>
           <SafeAreaView style={{ flex: 1 }}>
             <View>
               <ScrollView showsVerticalScrollIndicator={true}>
@@ -38,7 +29,7 @@ export default function Index() {
                   }}
                 >
                   {/* <Card children={<CameraView />} /> */}
-                  <Card children={<SensorView/>}/>
+                  <Card children={<SensorView />} />
                   <Card title="Accelerometer" />
                   <Card title="Barometer" />
                   <Card title="Gyroscope" />

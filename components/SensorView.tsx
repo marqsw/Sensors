@@ -1,70 +1,18 @@
 import { useState, useEffect, useRef } from "react";
-import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Accelerometer } from "expo-sensors";
 import { Subscription } from "expo-sensors/build/Pedometer";
 import { ThemedText } from "./ThemedText";
 import { GraphPoint, LineGraph } from "react-native-graph";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import Card from "./Card/Card";
 
 export default function SensorView() {
-  const dataPointNum = 50;
+  const dataPointNum = 100;
   const updateInterval = 50;
-  const milisecond = useRef(0);
-
+  const [milliseconds, setMilliseconds] = useState(0);
   const textColor = useThemeColor({}, "text");
 
   Accelerometer.setUpdateInterval(updateInterval);
-
-  const [{ x, y, z }, setData] = useState({
-    x: 0,
-    y: 0,
-    z: 0,
-  });
-
-  // Graph data
-  interface GraphPoints {
-    xHist: GraphPoint[];
-    yHist: GraphPoint[];
-    zHist: GraphPoint[];
-  }
-
-  const graphData = useRef<GraphPoints>({
-    xHist: [],
-    yHist: [],
-    zHist: [],
-  });
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      graphData.current.xHist = graphData.current.xHist.concat({
-        value: x,
-        date: new Date(milisecond.current),
-      });
-      graphData.current.yHist = graphData.current.yHist.concat({
-        value: y,
-        date: new Date(milisecond.current),
-      });
-      graphData.current.zHist = graphData.current.zHist.concat({
-        value: z,
-        date: new Date(milisecond.current),
-      });
-
-      [
-        graphData.current.xHist,
-        graphData.current.yHist,
-        graphData.current.zHist,
-      ].forEach((hist) => {
-        while (hist.length > dataPointNum) {
-          hist.shift();
-        }
-      });
-
-      milisecond.current += updateInterval;
-    }, updateInterval);
-
-    return () => clearInterval(interval);
-  }, [milisecond.current]);
 
   // Subscription
   const [subscription, setSubscription] = useState<Subscription | null>(null);
@@ -83,6 +31,40 @@ export default function SensorView() {
     return () => unsubscribe();
   }, []);
 
+  // ----------------------------------------------
+
+  const [{ x, y, z }, setData] = useState({
+    x: 0,
+    y: 0,
+    z: 0,
+  });
+  const [graphData, setGraphData] = useState<GraphPoint[][]>([[], [], []]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newGraphData = [...graphData];
+
+      [x, y, z].forEach((axisValue, index) => {
+        const axisData: GraphPoint[] = newGraphData[index];
+
+        axisData.push({
+          value: axisValue,
+          date: new Date(milliseconds),
+        });
+
+        while (axisData.length > dataPointNum) {
+          axisData.shift();
+        }
+      });
+
+      setGraphData(newGraphData);
+      // console.log(graphData.at(-1))
+      setMilliseconds(updateInterval);
+    }, updateInterval);
+
+    return () => clearInterval(interval);
+  }, [milliseconds, graphData]);
+
   return (
     <View
       style={[
@@ -95,30 +77,22 @@ export default function SensorView() {
       </ThemedText>
 
       <View style={{ flex: 3, width: "100%" }}>
-        <View style={{ flex: 1, width: "100%" }}>
-          <LineGraph
-            points={graphData.current.xHist}
-            color={textColor}
-            animated={false}
-            style={StyleSheet.absoluteFill}
-          />
-        </View>
-        <View style={{ flex: 1, width: "100%" }}>
-          <LineGraph
-            points={graphData.current.yHist}
-            color={textColor}
-            animated={false}
-            style={StyleSheet.absoluteFill}
-          />
-        </View>
-        <View style={{ flex: 1, width: "100%" }}>
-          <LineGraph
-            points={graphData.current.zHist}
-            color={textColor}
-            animated={false}
-            style={StyleSheet.absoluteFill}
-          />
-        </View>
+        <LineGraph
+          points={graphData[2]}
+          color={textColor}
+          animated={false}
+          style={StyleSheet.absoluteFill}
+        />
+        {graphData.map((axis, index) => (
+          <View key={index} style={{ flex: 1 }}>
+            <LineGraph
+              points={axis}
+              color={textColor}
+              animated={false}
+              style={StyleSheet.absoluteFill}
+            />
+          </View>
+        ))}
       </View>
     </View>
   );

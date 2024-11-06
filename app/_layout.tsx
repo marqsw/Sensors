@@ -18,6 +18,9 @@ export default function RootLayout() {
             title: "Sensors",
             headerLargeTitle: true,
             headerTransparent: true,
+            headerSearchBarOptions: {
+              inputType: "text"
+            }
           }}
         />
       </Stack>
