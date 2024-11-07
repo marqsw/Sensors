@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useReducer } from "react";
 import { StyleSheet, View } from "react-native";
 import { Accelerometer } from "expo-sensors";
 import { Subscription } from "expo-sensors/build/Pedometer";
@@ -11,7 +11,6 @@ export default function SensorView() {
   const updateInterval = 50;
   const [milliseconds, setMilliseconds] = useState(0);
   const textColor = useThemeColor({}, "text");
-
   Accelerometer.setUpdateInterval(updateInterval);
 
   // Subscription
@@ -38,18 +37,21 @@ export default function SensorView() {
     y: 0,
     z: 0,
   });
+
   const [graphData, setGraphData] = useState<GraphPoint[][]>([[], [], []]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const newGraphData = [...graphData];
+      const newGraphData = graphData.map((axis) => [...axis]);
+
+      const currentMillisecond: Date = new Date(milliseconds);
 
       [x, y, z].forEach((axisValue, index) => {
         const axisData: GraphPoint[] = newGraphData[index];
 
         axisData.push({
           value: axisValue,
-          date: new Date(milliseconds),
+          date: currentMillisecond,
         });
 
         while (axisData.length > dataPointNum) {
@@ -58,8 +60,7 @@ export default function SensorView() {
       });
 
       setGraphData(newGraphData);
-      // console.log(graphData.at(-1))
-      setMilliseconds(updateInterval);
+      setMilliseconds((prev) => prev + updateInterval);
     }, updateInterval);
 
     return () => clearInterval(interval);
@@ -72,24 +73,24 @@ export default function SensorView() {
         StyleSheet.absoluteFill,
       ]}
     >
-      <ThemedText style={{ flex: 2 }} type="subtitle">
+      <ThemedText style={{ flex: 1 }} type="subtitle">
         Accelerometer
       </ThemedText>
 
-      <View style={{ flex: 3, width: "100%" }}>
-        <LineGraph
-          points={graphData[2]}
-          color={textColor}
-          animated={false}
-          style={StyleSheet.absoluteFill}
-        />
+      <View style={{
+        flex: 2,
+        gap: 20,
+        width: '100%'
+      }}>
         {graphData.map((axis, index) => (
-          <View key={index} style={{ flex: 1 }}>
+          <View key={index} style={{ flex: 1, width: "100%" }}>
             <LineGraph
               points={axis}
               color={textColor}
               animated={false}
-              style={StyleSheet.absoluteFill}
+              style={[
+                StyleSheet.absoluteFill,
+              ]}
             />
           </View>
         ))}
