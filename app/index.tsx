@@ -9,6 +9,10 @@ import ContextProvider from "@/components/context/ContextProvider";
 import AccelerometerCard from "@/components/card/sensor-cards/AccelerometerCard";
 import CameraCard from "@/components/card/sensor-cards/CameraCard";
 import GyroscopeCard from "@/components/card/sensor-cards/GyroscopeCard";
+import { Barometer } from "expo-sensors";
+import BarometerCard from "@/components/card/sensor-cards/BarometerCard";
+import MagnetometerCard from "@/components/card/sensor-cards/MagnetometerCard";
+import LightsensorCard from "@/components/card/sensor-cards/LightSensorCard";
 
 const gapSize = 40;
 
@@ -32,9 +36,12 @@ export default function Index() {
                     alignItems: "center",
                   }}
                 >
-                  <CameraCard/>
+                  <CameraCard />
                   <AccelerometerCard />
-                  <GyroscopeCard/>
+                  <GyroscopeCard />
+                  <BarometerCard />
+                  <MagnetometerCard />
+                  <LightsensorCard />
                 </View>
               </ScrollView>
             </View>
