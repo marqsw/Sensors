@@ -1,11 +1,13 @@
-import { useState, useEffect, useRef, useReducer } from "react";
+import { useState, useEffect, useRef, useReducer, useContext } from "react";
 import { Accelerometer } from "expo-sensors";
 import { Subscription } from "expo-sensors/build/Pedometer";
 import { GraphPoint } from "react-native-graph";
 import LineGraphView from "./LineGraphView";
+import { UpdateIntervalContext } from "../context/graphs/UpdateIntervalProvider";
 
 export default function SensorView() {
-  const updateInterval = 50;
+  const updateInterval = useContext(UpdateIntervalContext);
+
   const [milliseconds, setMilliseconds] = useState(0);
   Accelerometer.setUpdateInterval(updateInterval);
 
@@ -25,7 +27,6 @@ export default function SensorView() {
     subscribe();
     return () => unsubscribe();
   }, []);
-
 
   // data
   const [{ x, y, z }, setData] = useState({

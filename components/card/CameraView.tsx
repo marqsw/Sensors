@@ -4,7 +4,7 @@ import {
   useCameraDevice,
   useCameraPermission,
 } from "react-native-vision-camera";
-import { ThemedText } from "./ThemedText";
+import { ThemedText } from "../ThemedText";
 
 export default function CameraView() {
   const { hasPermission, requestPermission } = useCameraPermission();

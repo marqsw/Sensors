@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { ThemedView } from "./ThemedView";
+import { ThemedView } from "../ThemedView";
 import { Platform, StyleSheet, View, ViewProps } from "react-native";
 import { useThemeColor } from "@/hooks/useThemeColor";
 

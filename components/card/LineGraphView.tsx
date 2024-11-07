@@ -1,10 +1,10 @@
 import { View, StyleSheet } from "react-native";
-import { ThemedText } from "./ThemedText";
+import { ThemedText } from "../ThemedText";
 import { GraphPoint, LineGraph } from "react-native-graph";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { useContext, useEffect } from "react";
-import { DataPointNumContext } from "./context/graphs/DataPointNumProvider";
-import { UpdateIntervalContext } from "./context/graphs/UpdateIntervalProvider";
+import { DataPointNumContext } from "../context/graphs/DataPointNumProvider";
+import { UpdateIntervalContext } from "../context/graphs/UpdateIntervalProvider";
 
 type Props = {
   liveData: number[];
