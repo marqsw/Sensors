@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default function DataPointNumProvider({ children }: Props) {
-  const [dataPoint, setDataPoint] = useState(10);
+  const [dataPoint, setDataPoint] = useState(100);
 
   return (
     <DataPointNumContext.Provider value={dataPoint}>
