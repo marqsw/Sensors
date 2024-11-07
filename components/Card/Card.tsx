@@ -10,12 +10,12 @@ import Animated, {
 import Shadow from "../Shadow";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ReactElement, useContext, useEffect, useState } from "react";
-import { SelectionModeContext } from "../context/SelectionModeProvider";
-import { RecordingContext } from "../context/RecordingProvider";
+import { SelectionModeContext } from "../context/recording/SelectionModeProvider";
+import { RecordingContext } from "../context/recording/RecordingProvider";
 import {
   SelectedSensorsContext,
   SetSelectedSensorsContext,
-} from "../context/SelectedSensorsProvider";
+} from "../context/recording/SelectedSensorsProvider";
 
 
 type CardProps = {

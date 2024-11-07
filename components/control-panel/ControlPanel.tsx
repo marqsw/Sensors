@@ -13,11 +13,11 @@ import Animated, {
 import {
   SelectionModeContext,
   SetSelectionModeContext,
-} from "../context/SelectionModeProvider";
+} from "../context/recording/SelectionModeProvider";
 import {
   RecordingContext,
   SetRecordingContext,
-} from "../context/RecordingProvider";
+} from "../context/recording/RecordingProvider";
 
 export default function ControlPanel() {
   const borderColor = useThemeColor({}, "border");
