@@ -4,9 +4,11 @@ import { ThemedText } from "../ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import LineGraphView from "./LineGraphView";
 import { GraphPoint } from "react-native-graph";
+import { useState } from "react";
 
 type Props = {
   title: string;
+  description: string;
   liveData: number[];
   axisName?: string[];
   axisColors?: string[] | null;
@@ -18,6 +20,7 @@ type Props = {
 
 export default function SensorCard({
   title,
+  description,
   liveData,
   axisName = ["x", "y", "z"],
   axisColors = null,
@@ -33,9 +36,16 @@ export default function SensorCard({
       useThemeColor({}, "zAxis"),
     ];
   }
+  const [expanded, setExpanded] = useState(false);
+  const [selected, setSelected] = useState(false);
 
   return (
-    <Card>
+    <Card
+      expanded={expanded}
+      setExpanded={setExpanded}
+      selected={selected}
+      setSelected={setSelected}
+    >
       <View
         style={[
           {
@@ -82,6 +92,13 @@ export default function SensorCard({
             setMilliseconds={setMilliseconds}
           />
         </View>
+
+      {
+        expanded && <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <ThemedText style={{textAlign: 'left'}}>{description}</ThemedText>
+          </View>
+      }
+
       </View>
     </Card>
   );

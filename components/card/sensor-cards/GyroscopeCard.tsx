@@ -36,6 +36,7 @@ export default function GyroscopeCard() {
   return (
     <SensorCard
       title="Gyroscope"
+      description="A gyroscope measures the rate of rotation around an axis. It detects changes in orientation and angular velocity, helping to track the rotational movement."
       liveData={[x, y, z]}
       graphData={graphData}
       setGraphData={setGraphData}

@@ -36,6 +36,7 @@ export default function MagnetometerCard() {
   return (
     <SensorCard
       title="Magnetometer"
+      description="A magnetometer measures the strength and direction of magnetic fields. It detects magnetic forces."
       liveData={[x, y, z]}
       graphData={graphData}
       setGraphData={setGraphData}

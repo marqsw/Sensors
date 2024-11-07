@@ -33,6 +33,7 @@ export default function BarometerCard() {
   return (
     <SensorCard
       title="Barometer"
+      description="A barometer measures atmospheric pressure. It detects changes in air pressure, which can indicate weather patterns, altitude, or environmental conditions."
       liveData={[pressure]}
       axisName={["Pressure"]}
       graphData={graphData}

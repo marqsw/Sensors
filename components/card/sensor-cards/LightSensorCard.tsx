@@ -33,6 +33,7 @@ export default function LightsensorCard() {
   return (
     <SensorCard
       title="Light Sensor"
+      description="A light sensor measures the intensity of light in the environment. It detects changes in light levels."
       liveData={[illuminance]}
       axisName={["illuminance"]}
       graphData={graphData}

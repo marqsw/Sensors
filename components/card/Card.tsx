@@ -18,10 +18,14 @@ import {
 } from "../context/recording/SelectedSensorsProvider";
 
 type CardProps = {
+  expanded: boolean;
+  setExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+  selected: boolean;
+  setSelected: React.Dispatch<React.SetStateAction<boolean>>;
   children?: React.ReactNode;
 };
 
-export default function Card({ children }: CardProps) {
+export default function Card({ expanded, setExpanded, selected, setSelected, children }: CardProps) {
   const selectionMode = useContext(SelectionModeContext);
   const recording = useContext(RecordingContext);
   const aspectRatio = useSharedValue(2);
@@ -29,8 +33,6 @@ export default function Card({ children }: CardProps) {
   const selectedSensors = useContext(SelectedSensorsContext);
   const setSelectedSensors = useContext(SetSelectedSensorsContext);
 
-  const [expanded, setExpanded] = useState(false);
-  const [selected, setSelected] = useState(false);
 
   const lightMode = useColorScheme() === "light";
 
