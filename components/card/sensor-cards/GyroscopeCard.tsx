@@ -1,14 +1,14 @@
-import { useState, useEffect, useRef, useReducer, useContext } from "react";
-import { Accelerometer } from "expo-sensors";
+import { UpdateIntervalContext } from "@/components/context/graphs/UpdateIntervalProvider";
+import { Gyroscope } from "expo-sensors";
 import { Subscription } from "expo-sensors/build/Pedometer";
+import { useContext, useEffect, useState } from "react";
 import { GraphPoint } from "react-native-graph";
-import { UpdateIntervalContext } from "../../context/graphs/UpdateIntervalProvider";
 import SensorCard from "../SensorCard";
 
-export default function AccelerometerCard() {
+export default function GyroscopeCard() {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const subscribe = () => {
-    setSubscription(Accelerometer.addListener(setData));
+    setSubscription(Gyroscope.addListener(setData));
   };
   const unsubscribe = () => {
     subscription && subscription.remove();
@@ -27,14 +27,14 @@ export default function AccelerometerCard() {
   });
 
   const updateInterval = useContext(UpdateIntervalContext);
-  Accelerometer.setUpdateInterval(updateInterval);
+  Gyroscope.setUpdateInterval(updateInterval);
 
   const [graphData, setGraphData] = useState<GraphPoint[][]>([[], [], []]);
   const [milliseconds, setMilliseconds] = useState(0);
 
   return (
     <SensorCard
-      title="Accelerometer"
+      title="Gyroscope"
       liveData={[x, y, z]}
       graphData={graphData}
       setGraphData={setGraphData}

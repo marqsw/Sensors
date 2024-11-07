@@ -6,6 +6,7 @@ import LineGraphView from "./LineGraphView";
 import { GraphPoint } from "react-native-graph";
 
 type Props = {
+  title: string;
   liveData: number[];
   axisName?: string[];
   axisColors?: string[] | null;
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export default function SensorCard({
+  title,
   liveData,
   axisName = ["x", "y", "z"],
   axisColors = null,
@@ -49,7 +51,7 @@ export default function SensorCard({
             alignItems: "center",
           }}
         >
-          <ThemedText type="subtitle">Accelerometer</ThemedText>
+          <ThemedText type="subtitle">{title}</ThemedText>
           <View
             style={{
               flexDirection: "row",
