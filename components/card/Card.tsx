@@ -18,11 +18,10 @@ import {
 } from "../context/recording/SelectedSensorsProvider";
 
 type CardProps = {
-  title?: string;
   children?: React.ReactNode;
 };
 
-export default function Card({ title, children }: CardProps) {
+export default function Card({ children }: CardProps) {
   const selectionMode = useContext(SelectionModeContext);
   const recording = useContext(RecordingContext);
   const aspectRatio = useSharedValue(2);
@@ -46,13 +45,6 @@ export default function Card({ title, children }: CardProps) {
       });
     }
   };
-
-  const content = children ? (
-    children
-  ) : (
-    <ThemedText type="subtitle">{title}</ThemedText>
-  );
-
   const borderColor = useThemeColor({}, "border");
 
   const animatedBorderWidth = useSharedValue(1);
@@ -110,7 +102,7 @@ export default function Card({ title, children }: CardProps) {
             flex: 1,
           }}
         >
-          {content}
+          {children}
         </Shadow>
       </Animated.View>
     </Pressable>

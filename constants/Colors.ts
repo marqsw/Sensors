@@ -16,7 +16,10 @@ export const Colors = {
     tabIconSelected: tintColorLight,
     lightShadow: "#ffffff",
     darkShadow: "#bebebe",
-    border:'#afafaf'
+    border: "#afafaf",
+    xAxis: "#f63652",
+    yAxis: "#6fa41c",
+    zAxis: "#2f84e3",
   },
   dark: {
     text: "#ECEDEE",
@@ -27,6 +30,9 @@ export const Colors = {
     tabIconSelected: tintColorDark,
     lightShadow: "#222526",
     darkShadow: "#08090a",
-    border: '#3c3c3c7f'
+    border: "#3c3c3c7f",
+    xAxis: "#f63652",
+    yAxis: "#6fa41c",
+    zAxis: "#2f84e3",
   },
 };

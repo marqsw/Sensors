@@ -1,5 +1,4 @@
 import { View, StyleSheet } from "react-native";
-import { ThemedText } from "../ThemedText";
 import { GraphPoint, LineGraph } from "react-native-graph";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { useContext, useEffect } from "react";
@@ -22,10 +21,14 @@ export default function LineGraphView({
   setMilliseconds,
 }: Props) {
   const textColor = useThemeColor({}, "text");
+  const axisColors = [
+    useThemeColor({}, "xAxis"),
+    useThemeColor({}, "yAxis"),
+    useThemeColor({}, "zAxis"),
+  ];
 
-  const dataPointNum = useContext(DataPointNumContext)
-  const updateInterval = useContext(UpdateIntervalContext)
-
+  const dataPointNum = useContext(DataPointNumContext);
+  const updateInterval = useContext(UpdateIntervalContext);
 
   // update graph
   useEffect(() => {
@@ -54,22 +57,23 @@ export default function LineGraphView({
   }, [milliseconds, graphData]);
 
   return (
-    <View
-      style={[
-        { alignItems: "center", justifyContent: "center", padding: 20 },
-        StyleSheet.absoluteFill,
-      ]}
-    >
+    <>
       {graphData.map((axis, index) => (
-        <View key={index} style={{ flex: 1, width: "100%" }}>
+        <View
+          key={index}
+          style={{
+            flex: 1,
+            width: "100%",
+          }}
+        >
           <LineGraph
             points={axis}
-            color={textColor}
+            color={axisColors[index]}
             animated={false}
             style={[StyleSheet.absoluteFill]}
           />
         </View>
       ))}
-    </View>
+    </>
   );
 }

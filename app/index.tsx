@@ -6,20 +6,22 @@ import Card from "@/components/card/Card";
 import CameraView from "@/components/card/CameraView";
 import ControlPanel from "@/components/control-panel/ControlPanel";
 import { View } from "react-native";
-import SensorView from "@/components/card/SensorView";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ContextProvider from "@/components/context/ContextProvider";
+import AccelerometerView from "@/components/card/sensor-cards/AccelerometerCard";
+import AccelerometerCard from "@/components/card/sensor-cards/AccelerometerCard";
 
 const gapSize = 40;
 
 export default function Index() {
-
-  const headerHeight = useHeaderHeight()
+  const headerHeight = useHeaderHeight();
 
   return (
     <ContextProvider>
       <GestureHandlerRootView>
-        <ThemedView style={[{paddingTop: headerHeight},StyleSheet.absoluteFill]}>
+        <ThemedView
+          style={[{ paddingTop: headerHeight }, StyleSheet.absoluteFill]}
+        >
           <SafeAreaView style={{ flex: 1 }}>
             <View>
               <ScrollView showsVerticalScrollIndicator={true}>
@@ -32,13 +34,7 @@ export default function Index() {
                   }}
                 >
                   <Card children={<CameraView />} />
-                  <Card children={<SensorView />} />
-                  <Card title="Accelerometer" />
-                  <Card title="Barometer" />
-                  <Card title="Gyroscope" />
-                  <Card title="Magnetometer" />
-                  <Card title="LightSensor" />
-                  <Card title="Pedometer" />
+                  <AccelerometerCard />
                 </View>
               </ScrollView>
             </View>
