@@ -4,6 +4,7 @@ import { Subscription } from "expo-sensors/build/Pedometer";
 import { GraphPoint } from "react-native-graph";
 import { UpdateIntervalContext } from "../../context/graphs/UpdateIntervalProvider";
 import SensorCard from "../SensorCard";
+import { Platform } from "react-native";
 
 export default function AccelerometerCard() {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
@@ -27,7 +28,7 @@ export default function AccelerometerCard() {
   });
 
   const updateInterval = useContext(UpdateIntervalContext);
-  Accelerometer.setUpdateInterval(updateInterval);
+  Platform.OS === 'android' && Accelerometer.setUpdateInterval(updateInterval);
 
   const [graphData, setGraphData] = useState<GraphPoint[][]>([[], [], []]);
   const [milliseconds, setMilliseconds] = useState(0);

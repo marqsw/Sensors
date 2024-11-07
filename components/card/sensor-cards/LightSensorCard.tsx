@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { GraphPoint } from "react-native-graph";
 import SensorCard from "../SensorCard";
 import { LightSensor } from "expo-sensors";
+import { Platform } from "react-native";
 
 export default function LightsensorCard() {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
@@ -24,7 +25,7 @@ export default function LightsensorCard() {
     illuminance: 0,
   });
   const updateInterval = useContext(UpdateIntervalContext);
-  LightSensor.setUpdateInterval(updateInterval);
+  Platform.OS === 'android' && LightSensor.setUpdateInterval(updateInterval);
 
   const [graphData, setGraphData] = useState<GraphPoint[][]>([[]]);
   const [milliseconds, setMilliseconds] = useState(0);

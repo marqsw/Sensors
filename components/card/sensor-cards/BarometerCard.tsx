@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { GraphPoint } from "react-native-graph";
 import SensorCard from "../SensorCard";
 import { Barometer } from "expo-sensors";
+import { Platform } from "react-native";
 
 export default function BarometerCard() {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
@@ -24,7 +25,7 @@ export default function BarometerCard() {
     pressure: 0,
   });
   const updateInterval = useContext(UpdateIntervalContext);
-  Barometer.setUpdateInterval(updateInterval);
+  Platform.OS === 'android' && Barometer.setUpdateInterval(updateInterval);
 
   const [graphData, setGraphData] = useState<GraphPoint[][]>([[]]);
   const [milliseconds, setMilliseconds] = useState(0);
