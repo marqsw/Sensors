@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet } from "react-native";
+import { Platform, SafeAreaView, StyleSheet } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { ScrollView } from "react-native";
 import { useHeaderHeight } from "@react-navigation/elements";
@@ -41,7 +41,7 @@ export default function Index() {
                   <GyroscopeCard />
                   <BarometerCard />
                   <MagnetometerCard />
-                  <LightsensorCard />
+                  {Platform.OS === "android" && <LightsensorCard />}
                 </View>
               </ScrollView>
             </View>
