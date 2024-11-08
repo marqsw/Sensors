@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import RecordButton from "./RecordButton";
 import { BlurView } from "@react-native-community/blur";
-import IconButton from "./IconButton";
+import IconButton from "../IconButton";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,

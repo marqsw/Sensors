@@ -70,7 +70,7 @@ export default function SensorCard({
             }}
           >
             {liveData.map((data, index) => (
-              <ThemedText style={{ color: axisColors[index] }}>
+              <ThemedText key={axisName[index]} style={{ color: axisColors[index] }}>
                 {axisName[index]}: {data.toFixed(3)}
               </ThemedText>
             ))}
