@@ -4,13 +4,18 @@ import { ThemedText } from "../ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import LineGraphView from "./LineGraphView";
 import { GraphPoint } from "react-native-graph";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import {
+  AxisData,
+  RecordedDataJSONContext,
+} from "../context/recording/RecordedDataJSONContext";
+import { RecordingContext } from "../context/recording/RecordingProvider";
 
 type Props = {
   title: string;
   description: string;
   liveData: number[];
-  axisName?: string[];
+  axesName?: string[];
   axisColors?: string[] | null;
   graphData: GraphPoint[][];
   setGraphData: React.Dispatch<React.SetStateAction<GraphPoint[][]>>;
@@ -22,22 +27,47 @@ export default function SensorCard({
   title,
   description,
   liveData,
-  axisName = ["x", "y", "z"],
+  axesName = ["x", "y", "z"],
   axisColors = null,
   graphData,
   setGraphData,
   milliseconds,
   setMilliseconds,
 }: Props) {
+  const xAxisColor = useThemeColor({}, "xAxis");
+  const yAxisColor = useThemeColor({}, "yAxis");
+  const zAxisColor = useThemeColor({}, "zAxis");
+
   if (axisColors === null) {
-    axisColors = [
-      useThemeColor({}, "xAxis"),
-      useThemeColor({}, "yAxis"),
-      useThemeColor({}, "zAxis"),
-    ];
+    axisColors = [xAxisColor, yAxisColor, zAxisColor];
   }
   const [expanded, setExpanded] = useState(false);
   const [selected, setSelected] = useState(false);
+
+  const recording = useContext(RecordingContext);
+  const recordedDataJSON = useContext(RecordedDataJSONContext);
+
+  useEffect(() => {
+    if (selected) {
+      if (recording) {
+        setMilliseconds(0);
+        setGraphData(Array(axesName.length).fill([]));
+      } else {
+        recordedDataJSON.current[title] = {};
+
+        axesName.forEach((axisName, index) => {
+          recordedDataJSON.current[title][axisName] = graphData[index].map(
+            (graphPoint) => {
+              return {
+                time: graphPoint.date.getTime(),
+                value: graphPoint.value,
+              };
+            }
+          );
+        });
+      }
+    }
+  }, [recording]);
 
   return (
     <Card
@@ -70,8 +100,11 @@ export default function SensorCard({
             }}
           >
             {liveData.map((data, index) => (
-              <ThemedText key={axisName[index]} style={{ color: axisColors[index] }}>
-                {axisName[index]}: {data.toFixed(3)}
+              <ThemedText
+                key={axesName[index]}
+                style={{ color: axisColors[index] }}
+              >
+                {axesName[index]}: {data.toFixed(3)}
               </ThemedText>
             ))}
           </View>
@@ -93,12 +126,13 @@ export default function SensorCard({
           />
         </View>
 
-      {
-        expanded && <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <ThemedText style={{textAlign: 'left'}}>{description}</ThemedText>
+        {expanded && (
+          <View
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          >
+            <ThemedText style={{ textAlign: "left" }}>{description}</ThemedText>
           </View>
-      }
-
+        )}
       </View>
     </Card>
   );

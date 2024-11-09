@@ -1,5 +1,5 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Pressable, Share, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import RecordButton from "./RecordButton";
 import { BlurView } from "@react-native-community/blur";
@@ -18,6 +18,8 @@ import {
   RecordingContext,
   SetRecordingContext,
 } from "../context/recording/RecordingProvider";
+import { RecordedDataJSONContext } from "../context/recording/RecordedDataJSONContext";
+import { shareAsync } from "expo-sharing";
 
 export default function ControlPanel() {
   const borderColor = useThemeColor({}, "border");
@@ -33,6 +35,8 @@ export default function ControlPanel() {
 
   const recording = useContext(RecordingContext);
   const setRecording = useContext(SetRecordingContext);
+  const recordedDataJSON = useContext(RecordedDataJSONContext)
+
 
   const controlPanelStyle = useAnimatedStyle(() => {
     return {
@@ -62,6 +66,15 @@ export default function ControlPanel() {
       alignSelf: "center",
     };
   });
+
+
+  useEffect(() => {
+    if (!recording) {
+      
+    }
+  }
+  , [recording]
+  )
 
   useEffect(() => {
     contentOpacity.value = withTiming(expanded ? 1 : 0);

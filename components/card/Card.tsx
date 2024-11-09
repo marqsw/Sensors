@@ -12,10 +12,6 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { SelectionModeContext } from "../context/recording/SelectionModeProvider";
 import { RecordingContext } from "../context/recording/RecordingProvider";
-import {
-  SelectedSensorsContext,
-  SetSelectedSensorsContext,
-} from "../context/recording/SelectedSensorsProvider";
 
 type CardProps = {
   expanded: boolean;
@@ -29,10 +25,6 @@ export default function Card({ expanded, setExpanded, selected, setSelected, chi
   const selectionMode = useContext(SelectionModeContext);
   const recording = useContext(RecordingContext);
   const aspectRatio = useSharedValue(2);
-
-  const selectedSensors = useContext(SelectedSensorsContext);
-  const setSelectedSensors = useContext(SetSelectedSensorsContext);
-
 
   const lightMode = useColorScheme() === "light";
 

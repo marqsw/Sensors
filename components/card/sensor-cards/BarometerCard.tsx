@@ -35,7 +35,7 @@ export default function BarometerCard() {
       title="Barometer"
       description="A barometer measures atmospheric pressure. It detects changes in air pressure, which can indicate weather patterns, altitude, or environmental conditions."
       liveData={[pressure]}
-      axisName={["Pressure"]}
+      axesName={["Pressure"]}
       graphData={graphData}
       setGraphData={setGraphData}
       milliseconds={milliseconds}

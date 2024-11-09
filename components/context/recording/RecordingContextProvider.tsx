@@ -1,5 +1,5 @@
+import RecordedDataProvider from "./RecordedDataJSONContext";
 import RecordingProvider from "./RecordingProvider";
-import SelectedSensorsProvider from "./SelectedSensorsProvider";
 import SelectionModeProvider from "./SelectionModeProvider";
 
 type Props = {
@@ -9,9 +9,9 @@ type Props = {
 export default function RecordingContextProvider({ children }: Props) {
   return (
     <RecordingProvider>
-      <SelectionModeProvider>
-        <SelectedSensorsProvider>{children}</SelectedSensorsProvider>
-      </SelectionModeProvider>
+      <RecordedDataProvider>
+        <SelectionModeProvider>{children}</SelectionModeProvider>
+      </RecordedDataProvider>
     </RecordingProvider>
   );
 }
