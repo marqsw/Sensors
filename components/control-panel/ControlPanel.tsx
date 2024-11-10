@@ -1,9 +1,10 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { Pressable, Share, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import RecordButton from "./RecordButton";
 import { BlurView } from "@react-native-community/blur";
 import IconButton from "../IconButton";
+import * as FileSystem from "expo-file-system";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -19,6 +20,7 @@ import {
   SetRecordingContext,
 } from "../context/recording/RecordingProvider";
 import { RecordedDataJSONContext } from "../context/recording/RecordedDataJSONContext";
+import * as MediaLibrary from 'expo-media-library';
 import { shareAsync } from "expo-sharing";
 
 export default function ControlPanel() {
@@ -35,8 +37,7 @@ export default function ControlPanel() {
 
   const recording = useContext(RecordingContext);
   const setRecording = useContext(SetRecordingContext);
-  const recordedDataJSON = useContext(RecordedDataJSONContext)
-
+  const recordedDataJSON = useContext(RecordedDataJSONContext);
 
   const controlPanelStyle = useAnimatedStyle(() => {
     return {
@@ -67,14 +68,26 @@ export default function ControlPanel() {
     };
   });
 
+  async function saveRecordedFile() {
+    const fileUri =
+      FileSystem.documentDirectory + Date.now.toString() + " - SensorData.json";
+    await FileSystem.writeAsStringAsync(
+      fileUri,
+      JSON.stringify(recordedDataJSON.current),
+      { encoding: FileSystem.EncodingType.UTF8 }
+    );
+
+    shareAsync(fileUri)
+    // const asset = await MediaLibrary.createAssetAsync(fileUri)
+    // await MediaLibrary.createAlbumAsync("Download", asset, false)
+    alert("message saved");
+  }
 
   useEffect(() => {
     if (!recording) {
-      
+      saveRecordedFile();
     }
-  }
-  , [recording]
-  )
+  }, [recording]);
 
   useEffect(() => {
     contentOpacity.value = withTiming(expanded ? 1 : 0);
