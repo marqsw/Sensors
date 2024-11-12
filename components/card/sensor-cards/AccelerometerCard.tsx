@@ -28,9 +28,10 @@ export default function AccelerometerCard() {
   });
 
   const updateInterval = useContext(UpdateIntervalContext);
-  Platform.OS === "android" && Accelerometer.setUpdateInterval(updateInterval);
+  Accelerometer.setUpdateInterval(updateInterval);
 
-  const [graphData, setGraphData] = useState<GraphPoint[][]>([[], [], []]);
+
+  const graphData = useRef<GraphPoint[][]>([[], [], []])
   const [milliseconds, setMilliseconds] = useState(0);
 
   return (
@@ -39,7 +40,6 @@ export default function AccelerometerCard() {
       description="An accelerometer measures the acceleration. It detects forces such as gravity, vibration, and movement."
       liveData={[x, y, z]}
       graphData={graphData}
-      setGraphData={setGraphData}
       milliseconds={milliseconds}
       setMilliseconds={setMilliseconds}
     />

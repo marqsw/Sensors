@@ -68,26 +68,26 @@ export default function ControlPanel() {
     };
   });
 
-  async function saveRecordedFile() {
-    const fileUri =
-      FileSystem.documentDirectory + Date.now.toString() + " - SensorData.json";
-    await FileSystem.writeAsStringAsync(
-      fileUri,
-      JSON.stringify(recordedDataJSON.current),
-      { encoding: FileSystem.EncodingType.UTF8 }
-    );
+  // async function saveRecordedFile() {
+  //   const fileUri =
+  //     FileSystem.documentDirectory + Date.now.toString() + " - SensorData.json";
+  //   await FileSystem.writeAsStringAsync(
+  //     fileUri,
+  //     JSON.stringify(recordedDataJSON.current),
+  //     { encoding: FileSystem.EncodingType.UTF8 }
+  //   );
 
-    shareAsync(fileUri)
-    // const asset = await MediaLibrary.createAssetAsync(fileUri)
-    // await MediaLibrary.createAlbumAsync("Download", asset, false)
-    alert("message saved");
-  }
+  //   shareAsync(fileUri)
+  //   // const asset = await MediaLibrary.createAssetAsync(fileUri)
+  //   // await MediaLibrary.createAlbumAsync("Download", asset, false)
+  //   alert("message saved");
+  // }
 
-  useEffect(() => {
-    if (!recording) {
-      saveRecordedFile();
-    }
-  }, [recording]);
+  // useEffect(() => {
+  //   if (!recording) {
+  //     saveRecordedFile();
+  //   }
+  // }, [recording]);
 
   useEffect(() => {
     contentOpacity.value = withTiming(expanded ? 1 : 0);

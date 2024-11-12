@@ -24,6 +24,7 @@ export default function Index() {
         <ThemedView
           style={[{ paddingTop: headerHeight }, StyleSheet.absoluteFill]}
         >
+
           <SafeAreaView style={{ flex: 1 }}>
             <View>
               <ScrollView showsVerticalScrollIndicator={true}>
@@ -40,12 +41,14 @@ export default function Index() {
                   <GyroscopeCard />
                   <BarometerCard />
                   <MagnetometerCard />
-                  {Platform.OS === "android" && <LightsensorCard />}
+                  {/* {Platform.OS === "android" && <LightsensorCard />} */}
                 </View>
               </ScrollView>
             </View>
-            <ControlPanel />
+
           </SafeAreaView>
+          <ControlPanel />
+
         </ThemedView>
       </GestureHandlerRootView>
     </ContextProvider>

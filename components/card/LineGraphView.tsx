@@ -4,11 +4,13 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import { useContext, useEffect } from "react";
 import { DataPointNumContext } from "../context/graphs/DataPointNumProvider";
 import { UpdateIntervalContext } from "../context/graphs/UpdateIntervalProvider";
+import { MutableRefObject } from "react";
+
 
 type Props = {
   liveData: number[];
-  graphData: GraphPoint[][];
-  setGraphData: React.Dispatch<React.SetStateAction<GraphPoint[][]>>;
+  graphData: MutableRefObject<GraphPoint[][]>;
+  // setGraphData: React.Dispatch<React.SetStateAction<GraphPoint[][]>>;
   milliseconds: number;
   setMilliseconds: React.Dispatch<React.SetStateAction<number>>;
 };
@@ -16,7 +18,7 @@ type Props = {
 export default function LineGraphView({
   liveData,
   graphData,
-  setGraphData,
+  // setGraphData,
   milliseconds,
   setMilliseconds,
 }: Props) {
@@ -33,7 +35,7 @@ export default function LineGraphView({
   // update graph
   useEffect(() => {
     const interval = setInterval(() => {
-      const newGraphData = graphData.map((axis) => [...axis]);
+      const newGraphData = graphData.current.map((axis) => [...axis]);
       const currentMillisecond: Date = new Date(milliseconds);
 
       liveData.forEach((axisValue, index) => {
@@ -48,17 +50,18 @@ export default function LineGraphView({
           axisData.shift();
         }
       });
+      graphData.current = newGraphData
 
-      setGraphData(newGraphData);
+      // setGraphData(newGraphData);
       setMilliseconds((prev) => prev + updateInterval);
     }, updateInterval);
 
     return () => clearInterval(interval);
-  }, [milliseconds, graphData]);
+  }, [milliseconds]);
 
   return (
     <>
-      {graphData.map((axis, index) => (
+      {graphData.current.map((axis, index) => (
         <View
           key={index}
           style={{

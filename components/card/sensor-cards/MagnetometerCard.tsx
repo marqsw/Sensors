@@ -28,9 +28,9 @@ export default function MagnetometerCard() {
   });
 
   const updateInterval = useContext(UpdateIntervalContext);
-  Platform.OS === 'android' && Magnetometer.setUpdateInterval(updateInterval);
+  Magnetometer.setUpdateInterval(updateInterval);
 
-  const [graphData, setGraphData] = useState<GraphPoint[][]>([[], [], []]);
+  const graphData = useRef<GraphPoint[][]>([[], [], []])
   const [milliseconds, setMilliseconds] = useState(0);
 
   return (
@@ -39,7 +39,7 @@ export default function MagnetometerCard() {
       description="A magnetometer measures the strength and direction of magnetic fields. It detects magnetic forces."
       liveData={[x, y, z]}
       graphData={graphData}
-      setGraphData={setGraphData}
+      // setGraphData={setGraphData}
       milliseconds={milliseconds}
       setMilliseconds={setMilliseconds}
     />

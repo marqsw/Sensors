@@ -10,6 +10,7 @@ import {
   RecordedDataJSONContext,
 } from "../context/recording/RecordedDataJSONContext";
 import { RecordingContext } from "../context/recording/RecordingProvider";
+import { MutableRefObject } from "react";
 
 type Props = {
   title: string;
@@ -17,8 +18,8 @@ type Props = {
   liveData: number[];
   axesName?: string[];
   axisColors?: string[] | null;
-  graphData: GraphPoint[][];
-  setGraphData: React.Dispatch<React.SetStateAction<GraphPoint[][]>>;
+  graphData: MutableRefObject<GraphPoint[][]>;
+  // setGraphData: React.Dispatch<React.SetStateAction<GraphPoint[][]>>;
   milliseconds: number;
   setMilliseconds: React.Dispatch<React.SetStateAction<number>>;
 };
@@ -30,7 +31,7 @@ export default function SensorCard({
   axesName = ["x", "y", "z"],
   axisColors = null,
   graphData,
-  setGraphData,
+  // setGraphData,
   milliseconds,
   setMilliseconds,
 }: Props) {
@@ -51,12 +52,13 @@ export default function SensorCard({
     if (selected) {
       if (recording) {
         setMilliseconds(0);
-        setGraphData(Array(axesName.length).fill([]));
+        graphData.current =  Array(axesName.length).fill([])
+        // setGraphData(Array(axesName.length).fill([]));
       } else {
         recordedDataJSON.current[title] = {};
 
         axesName.forEach((axisName, index) => {
-          recordedDataJSON.current[title][axisName] = graphData[index].map(
+          recordedDataJSON.current[title][axisName] = graphData.current[index].map(
             (graphPoint) => {
               return {
                 time: graphPoint.date.getTime(),
@@ -120,7 +122,7 @@ export default function SensorCard({
           <LineGraphView
             liveData={liveData}
             graphData={graphData}
-            setGraphData={setGraphData}
+            // setGraphData={setGraphData}
             milliseconds={milliseconds}
             setMilliseconds={setMilliseconds}
           />
