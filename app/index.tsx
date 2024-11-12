@@ -1,4 +1,11 @@
-import { Platform, SafeAreaView, StyleSheet } from "react-native";
+import {
+  InputAccessoryView,
+  Keyboard,
+  Platform,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+} from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { ScrollView } from "react-native";
 import { useHeaderHeight } from "@react-navigation/elements";
@@ -12,6 +19,7 @@ import GyroscopeCard from "@/components/card/sensor-cards/GyroscopeCard";
 import BarometerCard from "@/components/card/sensor-cards/BarometerCard";
 import MagnetometerCard from "@/components/card/sensor-cards/MagnetometerCard";
 import LightsensorCard from "@/components/card/sensor-cards/LightSensorCard";
+import { ThemedText } from "@/components/ThemedText";
 
 const gapSize = 40;
 
@@ -24,7 +32,6 @@ export default function Index() {
         <ThemedView
           style={[{ paddingTop: headerHeight }, StyleSheet.absoluteFill]}
         >
-
           <SafeAreaView style={{ flex: 1 }}>
             <View>
               <ScrollView showsVerticalScrollIndicator={true}>
@@ -41,11 +48,10 @@ export default function Index() {
                   <GyroscopeCard />
                   <BarometerCard />
                   <MagnetometerCard />
-                  {/* {Platform.OS === "android" && <LightsensorCard />} */}
+                  {Platform.OS === "android" && <LightsensorCard />}
                 </View>
               </ScrollView>
             </View>
-
           </SafeAreaView>
           <ControlPanel />
 

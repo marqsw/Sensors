@@ -5,9 +5,9 @@ import { useContext, useEffect, useRef, useState } from "react";
 import {
   CameraView,
   CameraType,
-  useCameraPermissions,
   Camera,
 } from "expo-camera";
+import * as MediaLibrary from "expo-media-library"
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -86,7 +86,7 @@ export default function CameraCard() {
 
   useEffect(() => {
     if (video) {
-      shareAsync(video.uri);
+      MediaLibrary.saveToLibraryAsync(video.uri)
       setVideo(undefined);
     }
   }, [video]);
