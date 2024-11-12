@@ -20,7 +20,6 @@ import {
   SetRecordingContext,
 } from "../context/recording/RecordingProvider";
 import { RecordedDataJSONContext } from "../context/recording/RecordedDataJSONContext";
-import * as MediaLibrary from 'expo-media-library';
 import { shareAsync } from "expo-sharing";
 
 export default function ControlPanel() {
@@ -68,26 +67,26 @@ export default function ControlPanel() {
     };
   });
 
-  // async function saveRecordedFile() {
-  //   const fileUri =
-  //     FileSystem.documentDirectory + Date.now.toString() + " - SensorData.json";
-  //   await FileSystem.writeAsStringAsync(
-  //     fileUri,
-  //     JSON.stringify(recordedDataJSON.current),
-  //     { encoding: FileSystem.EncodingType.UTF8 }
-  //   );
+  async function saveRecordedFile() {
+    const fileUri = `${
+      FileSystem.documentDirectory?.toString() + Date.now.toString()
+    } - SensorData.json`;
 
-  //   shareAsync(fileUri)
-  //   // const asset = await MediaLibrary.createAssetAsync(fileUri)
-  //   // await MediaLibrary.createAlbumAsync("Download", asset, false)
-  //   alert("message saved");
-  // }
+    await FileSystem.writeAsStringAsync(
+      fileUri,
+      JSON.stringify(recordedDataJSON.current),
+      { encoding: FileSystem.EncodingType.UTF8 }
+    );
 
-  // useEffect(() => {
-  //   if (!recording) {
-  //     saveRecordedFile();
-  //   }
-  // }, [recording]);
+    shareAsync(fileUri);
+    recordedDataJSON.current = {};
+  }
+
+  useEffect(() => {
+    if (!isEmpty(recordedDataJSON.current) && !recording) {
+      saveRecordedFile();
+    }
+  }, [recording]);
 
   useEffect(() => {
     contentOpacity.value = withTiming(expanded ? 1 : 0);
@@ -168,7 +167,9 @@ export default function ControlPanel() {
                 buttonSize={buttonSize}
                 recording={recording}
                 enabled={expanded && !selectionMode}
-                toggleRecording={() => setRecording((prev) => !prev)}
+                toggleRecording={() => {
+                  setRecording((prev) => !prev);
+                }}
               />
 
               {/* Options button */}
@@ -200,4 +201,14 @@ export default function ControlPanel() {
       </View>
     </>
   );
+}
+
+function isEmpty(obj: Object) {
+  for (const prop in obj) {
+    if (Object.hasOwn(obj, prop)) {
+      return false;
+    }
+  }
+
+  return true;
 }

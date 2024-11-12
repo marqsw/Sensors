@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default function UpdateIntervalProvider({ children }: Props) {
-  const [updateINterval, setUpdateInterval] = useState(100);
+  const [updateINterval, setUpdateInterval] = useState(200);
 
   return (
     <UpdateIntervalContext.Provider value={updateINterval}>

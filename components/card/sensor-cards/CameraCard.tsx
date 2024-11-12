@@ -37,8 +37,6 @@ export default function CameraCard() {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
       const microphonePermission =
         await Camera.requestMicrophonePermissionsAsync();
-      const mediaLibraryPermission =
-
       setHasCameraPermission(cameraPermission.status === "granted");
       setHasMicrophonePermission(microphonePermission.status === "granted");
     })();
