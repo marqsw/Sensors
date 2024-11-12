@@ -12,13 +12,13 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 import IconButton from "@/components/IconButton";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { SelectionModeContext } from "@/components/context/recording/SelectionModeProvider";
 import { RecordingContext } from "@/components/context/recording/RecordingProvider";
-import { shareAsync } from 'expo-sharing';
-
+import { shareAsync } from "expo-sharing";
 
 export default function CameraCard() {
   let cameraRef = useRef<CameraView | null>(null);
@@ -58,12 +58,18 @@ export default function CameraCard() {
   const animatedPadding = useSharedValue(0);
   const animatedViewStyle = useAnimatedStyle(() => {
     return {
-      margin: `${animatedPadding.value}%`,
+      marginTop: `${animatedPadding.value}%`,
+      marginRight: `${animatedPadding.value}%`,
+      marginLeft: `${animatedPadding.value}%`,
+      marginBottom: 0
     };
   });
 
+  const animatedFlexValue = useSharedValue(1);
+
   useEffect(() => {
     animatedPadding.value = withSpring(expanded ? 5 : 0);
+    animatedFlexValue.value = withTiming(expanded ? 1 : 0.001);
   }, [expanded]);
 
   useEffect(() => {
@@ -80,8 +86,8 @@ export default function CameraCard() {
 
   useEffect(() => {
     if (video) {
-      shareAsync(video.uri)
-      setVideo(undefined)
+      shareAsync(video.uri);
+      setVideo(undefined);
     }
   }, [video]);
 
@@ -122,7 +128,7 @@ export default function CameraCard() {
         <Animated.View
           style={[
             animatedViewStyle,
-            { overflow: "hidden", borderRadius: 35, flex: 3 },
+            { overflow: "hidden", borderRadius: 35, flex: 2 },
           ]}
         >
           <CameraView
@@ -131,38 +137,35 @@ export default function CameraCard() {
             videoQuality="2160p"
             facing={facing}
             style={StyleSheet.absoluteFill}
+            enableTorch={enabletorch}
           />
         </Animated.View>
-        {expanded && (
-          <View
-            style={{
-              flex: 1,
-              margin: "5%",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              alignItems: "center",
-            }}
-          >
-            <IconButton
-              iconName={enabletorch ? "flash" : "flash-outline"}
-              iconColor={textColor}
-              buttonSize={70}
-              enabled={!selectionMode}
-              handleOnPress={() => setEnableTorch((prev) => !prev)}
-            />
-            <IconButton
-              iconName={"camera-reverse"}
-              iconColor={textColor}
-              buttonSize={70}
-              enabled={!(selectionMode || recording)}
-              handleOnPress={() =>
-                setFacing((current) => (current === "back" ? "front" : "back"))
-              }
-            />
-          </View>
-        )}
+        <Animated.View
+          style={{
+            flex: animatedFlexValue,
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+          }}
+        >
+          <IconButton
+            iconName={enabletorch ? "flash" : "flash-outline"}
+            iconColor={textColor}
+            buttonSize={70}
+            enabled={!selectionMode}
+            handleOnPress={() => setEnableTorch((prev) => !prev)}
+          />
+          <IconButton
+            iconName={"camera-reverse"}
+            iconColor={textColor}
+            buttonSize={70}
+            enabled={!(selectionMode || recording)}
+            handleOnPress={() =>
+              setFacing((current) => (current === "back" ? "front" : "back"))
+            }
+          />
+        </Animated.View>
       </View>
     </Card>
   );
 }
-
