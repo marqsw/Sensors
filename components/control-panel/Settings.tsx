@@ -57,11 +57,6 @@ export default function Settings({ visible }: Props) {
     return {
       width: `${widthPercentage.value}%`,
       opacity: opacity.value,
-      aspectRatio: 1,
-      borderRadius: 40,
-      borderWidth: 1,
-      borderColor: borderColor,
-      overflow: "hidden",
     };
   });
 
@@ -71,53 +66,56 @@ export default function Settings({ visible }: Props) {
   }, [visible]);
 
   return (
-    <Animated.View style={animatedStyle}>
-      <BlurView
-        style={[
-          {
-            position: "absolute",
-            padding: "10%",
-            flex: 1,
-            flexDirection: "column",
-            justifyContent: "center",
-          },
-          StyleSheet.absoluteFill,
-        ]}
-        blurAmount={20}
+    <Animated.View
+      style={[
+        animatedStyle,
+        {
+          aspectRatio: 1,
+          borderRadius: 40,
+          borderWidth: 1,
+          borderColor: borderColor,
+          overflow: "hidden",
+          padding: "10%",
+          // flex: 1,
+          flexDirection: "column",
+          justifyContent: "center",
+        },
+      ]}
+    >
+      <BlurView style={[{}, StyleSheet.absoluteFill]} blurAmount={20} />
+      {/* App info */}
+      <View
+        style={{
+          alignSelf: "flex-start",
+          flex: 1,
+          alignItems: "center",
+          width: "100%",
+        }}
       >
-        {/* App info */}
-        <View
-          style={{
-            alignSelf: "flex-start",
-            flex: 1,
-            alignItems: "center",
-            width: "100%",
-          }}
-        >
-          <ThemedText type="title">Sensors</ThemedText>
-          <Pressable
-            onPress={() => Linking.openURL("https://marqsw.github.io")}
-          >
-            <ThemedText type="link">from Marquis</ThemedText>
-          </Pressable>
-        </View>
+        <ThemedText type="title">Sensors</ThemedText>
+        <Pressable onPress={() => Linking.openURL("https://marqsw.github.io")}>
+          <ThemedText type="link">from Marquis</ThemedText>
+        </Pressable>
+      </View>
 
-        {/* Settings */}
-        <View style={{flex: 2}}>
-          <ScrollView style={{ alignContent: "center", flex: 2, flexDirection: "column"  }} keyboardDismissMode="interactive">
-            <InputField
-              title="Number of graph points"
-              value={inputDataPointNum}
-              setValue={setInputDataPointNum}
-            />
-            <InputField
-              title="Update interval in miliseconds (floor limit: 200)"
-              value={inputUpdateInterval}
-              setValue={setInputUpdateInterval}
-            />
-          </ScrollView>
-        </View>
-      </BlurView>
+      {/* Settings */}
+      <View style={{ flex: 2 }}>
+        <ScrollView
+          style={{ alignContent: "center", flex: 2, flexDirection: "column" }}
+          keyboardDismissMode="interactive"
+        >
+          <InputField
+            title="Number of graph points"
+            value={inputDataPointNum}
+            setValue={setInputDataPointNum}
+          />
+          <InputField
+            title="Update interval in miliseconds (floor limit: 200)"
+            value={inputUpdateInterval}
+            setValue={setInputUpdateInterval}
+          />
+        </ScrollView>
+      </View>
     </Animated.View>
   );
 }
