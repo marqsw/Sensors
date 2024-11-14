@@ -6,10 +6,8 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { opacity } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 import { useContext, useEffect, useState } from "react";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { TextInput } from "react-native-gesture-handler";
 import {
   DataPointNumContext,
   SetDataPointNumContext,
@@ -92,7 +90,7 @@ export default function Settings({ visible }: Props) {
           width: "100%",
         }}
       >
-        <ThemedText type="title">Sensors</ThemedText>
+        <ThemedText type="title" lightColor="white">Sensors</ThemedText>
         <Pressable onPress={() => Linking.openURL("https://marqsw.github.io")}>
           <ThemedText type="link">from Marquis</ThemedText>
         </Pressable>

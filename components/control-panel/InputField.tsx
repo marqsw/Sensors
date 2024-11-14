@@ -11,7 +11,6 @@ type Props = {
 
 export default function InputField({ title, value, setValue, unit }: Props) {
   const borderColor = useThemeColor({}, "border");
-  const textColor = useThemeColor({}, "text");
 
   return (
     <View
@@ -20,7 +19,7 @@ export default function InputField({ title, value, setValue, unit }: Props) {
         flexDirection: "row",
       }}
     >
-      <ThemedText style={{ flex: 3, alignSelf: "center" }}>{title}</ThemedText>
+      <ThemedText style={{ flex: 3, alignSelf: "center" }} lightColor="white">{title}</ThemedText>
       <TextInput
         keyboardType="number-pad"
         value={value}
@@ -30,7 +29,7 @@ export default function InputField({ title, value, setValue, unit }: Props) {
           borderWidth: 1,
           borderColor: borderColor,
           textAlign: "center",
-          color: textColor,
+          color: "white",
           borderRadius: 10,
           alignSelf: "center",
           padding: "5%"
