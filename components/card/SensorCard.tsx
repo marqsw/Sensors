@@ -1,16 +1,12 @@
-import { View, StyleSheet } from "react-native";
-import Card from "./Card";
-import { ThemedText } from "../ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import LineGraphView from "./LineGraphView";
+import { MutableRefObject, useContext, useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
 import { GraphPoint } from "react-native-graph";
-import { useContext, useEffect, useState } from "react";
-import {
-  AxisData,
-  RecordedDataJSONContext,
-} from "../context/recording/RecordedDataJSONContext";
+import { RecordedDataJSONContext } from "../context/recording/RecordedDataJSONContext";
 import { RecordingContext } from "../context/recording/RecordingProvider";
-import { MutableRefObject } from "react";
+import { ThemedText } from "../ThemedText";
+import Card from "./Card";
+import LineGraphView from "./LineGraphView";
 
 type Props = {
   title: string;

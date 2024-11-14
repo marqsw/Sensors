@@ -1,5 +1,6 @@
-import { Platform, Pressable, StyleSheet, useColorScheme } from "react-native";
-import { ThemedText } from "../ThemedText";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { useContext, useEffect } from "react";
+import { Platform, Pressable, useColorScheme } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -7,11 +8,9 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import Shadow from "./Shadow";
-import { useThemeColor } from "@/hooks/useThemeColor";
-import { ReactElement, useContext, useEffect, useState } from "react";
-import { SelectionModeContext } from "../context/recording/SelectionModeProvider";
 import { RecordingContext } from "../context/recording/RecordingProvider";
+import { SelectionModeContext } from "../context/recording/SelectionModeProvider";
+import Shadow from "./Shadow";
 
 type CardProps = {
   expanded: boolean;
@@ -21,7 +20,13 @@ type CardProps = {
   children?: React.ReactNode;
 };
 
-export default function Card({ expanded, setExpanded, selected, setSelected, children }: CardProps) {
+export default function Card({
+  expanded,
+  setExpanded,
+  selected,
+  setSelected,
+  children,
+}: CardProps) {
   const selectionMode = useContext(SelectionModeContext);
   const recording = useContext(RecordingContext);
   const aspectRatio = useSharedValue(2);

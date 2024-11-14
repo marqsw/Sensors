@@ -1,22 +1,22 @@
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { BlurView } from "@react-native-community/blur";
+import { useContext, useEffect, useState } from "react";
 import { Linking, Pressable, ScrollView, StyleSheet, View } from "react-native";
-import { ThemedText } from "../ThemedText";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { useContext, useEffect, useState } from "react";
-import { useThemeColor } from "@/hooks/useThemeColor";
 import {
   DataPointNumContext,
   SetDataPointNumContext,
 } from "../context/graphs/DataPointNumProvider";
-import InputField from "./InputField";
 import {
   SetUpdateIntervalContext,
   UpdateIntervalContext,
 } from "../context/graphs/UpdateIntervalProvider";
+import { ThemedText } from "../ThemedText";
+import InputField from "./InputField";
 
 type Props = {
   visible: Boolean;
@@ -80,7 +80,7 @@ export default function Settings({ visible }: Props) {
         },
       ]}
     >
-      <BlurView style={[{}, StyleSheet.absoluteFill]} blurAmount={20} />
+      <BlurView style={StyleSheet.absoluteFill} blurAmount={20} />
       {/* App info */}
       <View
         style={{
@@ -90,7 +90,9 @@ export default function Settings({ visible }: Props) {
           width: "100%",
         }}
       >
-        <ThemedText type="title" lightColor="white">Sensors</ThemedText>
+        <ThemedText type="title" lightColor="white">
+          Sensors
+        </ThemedText>
         <Pressable onPress={() => Linking.openURL("https://marqsw.github.io")}>
           <ThemedText type="link">from Marquis</ThemedText>
         </Pressable>

@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef, useReducer, useContext } from "react";
+import { Magnetometer } from "expo-sensors";
 import { Subscription } from "expo-sensors/build/Pedometer";
+import { useContext, useEffect, useRef, useState } from "react";
 import { GraphPoint } from "react-native-graph";
 import { UpdateIntervalContext } from "../../context/graphs/UpdateIntervalProvider";
 import SensorCard from "../SensorCard";
-import { Magnetometer } from "expo-sensors";
 
 export default function MagnetometerCard() {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
@@ -29,7 +29,7 @@ export default function MagnetometerCard() {
   const updateInterval = useContext(UpdateIntervalContext);
   Magnetometer.setUpdateInterval(updateInterval);
 
-  const graphData = useRef<GraphPoint[][]>([[], [], []])
+  const graphData = useRef<GraphPoint[][]>([[], [], []]);
   const [milliseconds, setMilliseconds] = useState(0);
 
   return (

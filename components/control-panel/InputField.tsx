@@ -1,12 +1,12 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { InputAccessoryView, Keyboard, Pressable, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 import { ThemedText } from "../ThemedText";
 
 type Props = {
   title: string;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
-  unit?: string
+  unit?: string;
 };
 
 export default function InputField({ title, value, setValue, unit }: Props) {
@@ -19,7 +19,9 @@ export default function InputField({ title, value, setValue, unit }: Props) {
         flexDirection: "row",
       }}
     >
-      <ThemedText style={{ flex: 3, alignSelf: "center" }} lightColor="white">{title}</ThemedText>
+      <ThemedText style={{ flex: 3, alignSelf: "center" }} lightColor="white">
+        {title}
+      </ThemedText>
       <TextInput
         keyboardType="number-pad"
         value={value}
@@ -32,11 +34,10 @@ export default function InputField({ title, value, setValue, unit }: Props) {
           color: "white",
           borderRadius: 10,
           alignSelf: "center",
-          padding: "5%"
+          padding: "5%",
         }}
       />
       {unit && <TextInput>{unit}</TextInput>}
     </View>
-    
   );
 }

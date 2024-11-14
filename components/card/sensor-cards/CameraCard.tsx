@@ -1,24 +1,19 @@
-import { Button, Pressable, StyleSheet, View } from "react-native";
-import { ThemedText } from "../../ThemedText";
-import Card from "../Card";
+import { RecordingContext } from "@/components/context/recording/RecordingProvider";
+import { SelectionModeContext } from "@/components/context/recording/SelectionModeProvider";
+import IconButton from "@/components/IconButton";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { Camera, CameraType, CameraView } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
 import { useContext, useEffect, useRef, useState } from "react";
-import {
-  CameraView,
-  CameraType,
-  Camera,
-} from "expo-camera";
-import * as MediaLibrary from "expo-media-library"
+import { StyleSheet, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import IconButton from "@/components/IconButton";
-import { useThemeColor } from "@/hooks/useThemeColor";
-import { SelectionModeContext } from "@/components/context/recording/SelectionModeProvider";
-import { RecordingContext } from "@/components/context/recording/RecordingProvider";
-import { shareAsync } from "expo-sharing";
+import { ThemedText } from "../../ThemedText";
+import Card from "../Card";
 
 export default function CameraCard() {
   let cameraRef = useRef<CameraView | null>(null);
@@ -61,7 +56,7 @@ export default function CameraCard() {
       marginTop: `${animatedPadding.value}%`,
       marginRight: `${animatedPadding.value}%`,
       marginLeft: `${animatedPadding.value}%`,
-      marginBottom: 0
+      marginBottom: 0,
     };
   });
 
@@ -86,7 +81,7 @@ export default function CameraCard() {
 
   useEffect(() => {
     if (video) {
-      MediaLibrary.saveToLibraryAsync(video.uri)
+      MediaLibrary.saveToLibraryAsync(video.uri);
       setVideo(undefined);
     }
   }, [video]);

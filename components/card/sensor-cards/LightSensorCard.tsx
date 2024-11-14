@@ -1,10 +1,9 @@
 import { UpdateIntervalContext } from "@/components/context/graphs/UpdateIntervalProvider";
+import { LightSensor } from "expo-sensors";
 import { Subscription } from "expo-sensors/build/Pedometer";
 import { useContext, useEffect, useRef, useState } from "react";
 import { GraphPoint } from "react-native-graph";
 import SensorCard from "../SensorCard";
-import { LightSensor } from "expo-sensors";
-import { Platform } from "react-native";
 
 export default function LightsensorCard() {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
@@ -27,7 +26,7 @@ export default function LightsensorCard() {
   const updateInterval = useContext(UpdateIntervalContext);
   LightSensor.setUpdateInterval(updateInterval);
 
-  const graphData = useRef<GraphPoint[][]>([[]])
+  const graphData = useRef<GraphPoint[][]>([[]]);
   const [milliseconds, setMilliseconds] = useState(0);
 
   return (

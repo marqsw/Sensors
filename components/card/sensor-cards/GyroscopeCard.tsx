@@ -4,7 +4,6 @@ import { Subscription } from "expo-sensors/build/Pedometer";
 import { useContext, useEffect, useRef, useState } from "react";
 import { GraphPoint } from "react-native-graph";
 import SensorCard from "../SensorCard";
-import { Platform } from "react-native";
 
 export default function GyroscopeCard() {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
