@@ -94,7 +94,7 @@ export default function ControlPanel() {
   useEffect(() => {
     contentOpacity.value = withTiming(expanded ? 1 : 0);
     height.value = withSpring(expanded ? 20 : 10, { damping: 12, mass: 0.8 });
-    width.value = withSpring(expanded ? 90 : 20, { damping: 12, mass: 0.8 });
+    width.value = withSpring(expanded ? 90 : 25, { damping: 12, mass: 0.8 });
     
     !expanded && setSettingsOpened(false)
   }, [expanded]);
@@ -162,6 +162,7 @@ export default function ControlPanel() {
             >
               {/* Selection button */}
               <IconButton
+              title="Select"
                 buttonSize={buttonSize}
                 iconName={selectionMode ? "albums" : "albums-outline"}
                 enabled={expanded && !recording}
@@ -183,6 +184,7 @@ export default function ControlPanel() {
 
               {/* Options button */}
               <IconButton
+              title="Options"
                 buttonSize={buttonSize}
                 iconName="options-outline"
                 enabled={expanded && !recording}
@@ -198,6 +200,7 @@ export default function ControlPanel() {
               pointerEvents="none"
             >
               <IconButton
+                title={selectionMode ? "Done" : undefined}
                 iconName={
                   selectionMode
                     ? "checkmark-circle"
