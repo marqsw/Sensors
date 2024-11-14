@@ -75,9 +75,7 @@ export default function ControlPanel() {
 
     const fileUri =
       FileSystem.documentDirectory?.toString() +
-      `${currentTime.getDate()}-${currentTime.getMonth()}-${currentTime.getFullYear()} ${
-        currentTime.getHours()
-      }:${currentTime.getMinutes()}:${currentTime.getSeconds()} SensorData.json`;
+      `${currentTime.getDate()}-${currentTime.getMonth()}-${currentTime.getFullYear()} ${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()} SensorData.json`;
 
     await FileSystem.writeAsStringAsync(
       fileUri,
