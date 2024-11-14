@@ -4,7 +4,6 @@ import { GraphPoint } from "react-native-graph";
 import { UpdateIntervalContext } from "../../context/graphs/UpdateIntervalProvider";
 import SensorCard from "../SensorCard";
 import { Magnetometer } from "expo-sensors";
-import { Platform } from "react-native";
 
 export default function MagnetometerCard() {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
@@ -42,6 +41,7 @@ export default function MagnetometerCard() {
       // setGraphData={setGraphData}
       milliseconds={milliseconds}
       setMilliseconds={setMilliseconds}
+      unit="μT"
     />
   );
 }

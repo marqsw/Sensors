@@ -39,6 +39,7 @@ export default function LightsensorCard() {
       graphData={graphData}
       milliseconds={milliseconds}
       setMilliseconds={setMilliseconds}
+      unit="lux"
     />
   );
 }

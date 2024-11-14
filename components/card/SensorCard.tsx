@@ -22,6 +22,7 @@ type Props = {
   // setGraphData: React.Dispatch<React.SetStateAction<GraphPoint[][]>>;
   milliseconds: number;
   setMilliseconds: React.Dispatch<React.SetStateAction<number>>;
+  unit: string;
 };
 
 export default function SensorCard({
@@ -31,9 +32,9 @@ export default function SensorCard({
   axesName = ["x", "y", "z"],
   axisColors = null,
   graphData,
-  // setGraphData,
   milliseconds,
   setMilliseconds,
+  unit,
 }: Props) {
   const xAxisColor = useThemeColor({}, "xAxis");
   const yAxisColor = useThemeColor({}, "yAxis");
@@ -52,20 +53,20 @@ export default function SensorCard({
     if (selected) {
       if (recording) {
         setMilliseconds(0);
-        graphData.current =  Array(axesName.length).fill([])
+        graphData.current = Array(axesName.length).fill([]);
         // setGraphData(Array(axesName.length).fill([]));
       } else {
         recordedDataJSON.current[title] = {};
 
         axesName.forEach((axisName, index) => {
-          recordedDataJSON.current[title][axisName] = graphData.current[index].map(
-            (graphPoint) => {
-              return {
-                time: graphPoint.date.getTime(),
-                value: graphPoint.value,
-              };
-            }
-          );
+          recordedDataJSON.current[title][axisName] = graphData.current[
+            index
+          ].map((graphPoint) => {
+            return {
+              time: graphPoint.date.getTime(),
+              value: graphPoint.value,
+            };
+          });
         });
       }
     }
@@ -106,7 +107,7 @@ export default function SensorCard({
                 key={axesName[index]}
                 style={{ color: axisColors[index] }}
               >
-                {axesName[index]}: {data.toFixed(3)}
+                {axesName[index]}: {data.toFixed(3)} {unit}
               </ThemedText>
             ))}
           </View>

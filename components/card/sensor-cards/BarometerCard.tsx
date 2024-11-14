@@ -40,6 +40,7 @@ export default function BarometerCard() {
       // setGraphData={setGraphData}
       milliseconds={milliseconds}
       setMilliseconds={setMilliseconds}
+      unit="hPa"
     />
   );
 }

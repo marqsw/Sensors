@@ -30,7 +30,7 @@ export default function GyroscopeCard() {
   const updateInterval = useContext(UpdateIntervalContext);
   Gyroscope.setUpdateInterval(updateInterval);
 
-  const graphData = useRef<GraphPoint[][]>([[], [], []])
+  const graphData = useRef<GraphPoint[][]>([[], [], []]);
   const [milliseconds, setMilliseconds] = useState(0);
 
   return (
@@ -41,6 +41,7 @@ export default function GyroscopeCard() {
       graphData={graphData}
       milliseconds={milliseconds}
       setMilliseconds={setMilliseconds}
+      unit="rads⁻¹"
     />
   );
 }
