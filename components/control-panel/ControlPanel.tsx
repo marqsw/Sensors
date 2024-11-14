@@ -71,9 +71,13 @@ export default function ControlPanel() {
   });
 
   async function saveRecordedFile() {
-    const fileUri = `${
-      FileSystem.documentDirectory?.toString() + Date.now.toString()
-    } - SensorData.json`;
+    const currentTime = new Date(Date.now());
+
+    const fileUri =
+      FileSystem.documentDirectory?.toString() +
+      `${currentTime.getDate()}-${currentTime.getMonth()}-${currentTime.getFullYear()} ${
+        currentTime.getHours()
+      }:${currentTime.getMinutes()}:${currentTime.getSeconds()} SensorData.json`;
 
     await FileSystem.writeAsStringAsync(
       fileUri,
