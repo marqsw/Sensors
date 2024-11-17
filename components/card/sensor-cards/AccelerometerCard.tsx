@@ -37,7 +37,7 @@ export default function AccelerometerCard() {
   return (
     <SensorCard
       title="Accelerometer"
-      description="An accelerometer measures the acceleration. It detects forces such as gravity, vibration, and movement."
+      description="An accelerometer measures the acceleration. It detects gravity, vibration, and movement."
       liveData={[x, y, z]}
       graphData={graphData}
       milliseconds={milliseconds}
