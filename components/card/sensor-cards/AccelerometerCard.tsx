@@ -40,7 +40,7 @@ export default function AccelerometerCard() {
       graphData={graphData}
       milliseconds={milliseconds}
       setMilliseconds={setMilliseconds}
-      unit={"G"}
+      unit={"g"}
     />
   );
 }
