@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
-import { ThemedView } from "../ThemedView";
-import { Platform, StyleSheet, View, ViewProps } from "react-native";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { ReactNode } from "react";
+import { Platform, StyleSheet, View, ViewProps } from "react-native";
+import { ThemedView } from "../ThemedView";
 
 type ShadowProps = ViewProps & {
   children: ReactNode;
@@ -13,8 +13,7 @@ export default function Shadow({ style, children }: ShadowProps) {
   const darkShadow =
     Platform.OS === "ios" ? useThemeColor({}, "darkShadow") : "#000";
 
-  const backgroundColor = useThemeColor({}, "background")
-
+  const backgroundColor = useThemeColor({}, "background");
 
   const styles = StyleSheet.create({
     shadow: {
@@ -24,7 +23,6 @@ export default function Shadow({ style, children }: ShadowProps) {
       backgroundColor: backgroundColor,
     },
   });
-
 
   return (
     <View
@@ -49,12 +47,17 @@ export default function Shadow({ style, children }: ShadowProps) {
         ]}
       >
         <View
-
-          style={[{
-            overflow: "hidden"
-          }, style, StyleSheet.absoluteFill]}>{children}</View>
+          style={[
+            {
+              overflow: "hidden",
+            },
+            style,
+            StyleSheet.absoluteFill,
+          ]}
+        >
+          {children}
+        </View>
       </ThemedView>
     </View>
   );
 }
-

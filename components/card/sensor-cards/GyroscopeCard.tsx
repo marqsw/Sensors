@@ -4,7 +4,6 @@ import { Subscription } from "expo-sensors/build/Pedometer";
 import { useContext, useEffect, useRef, useState } from "react";
 import { GraphPoint } from "react-native-graph";
 import SensorCard from "../SensorCard";
-import { Platform } from "react-native";
 
 export default function GyroscopeCard() {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
@@ -30,7 +29,7 @@ export default function GyroscopeCard() {
   const updateInterval = useContext(UpdateIntervalContext);
   Gyroscope.setUpdateInterval(updateInterval);
 
-  const graphData = useRef<GraphPoint[][]>([[], [], []])
+  const graphData = useRef<GraphPoint[][]>([[], [], []]);
   const [milliseconds, setMilliseconds] = useState(0);
 
   return (
@@ -41,6 +40,7 @@ export default function GyroscopeCard() {
       graphData={graphData}
       milliseconds={milliseconds}
       setMilliseconds={setMilliseconds}
+      unit="rads⁻¹"
     />
   );
 }

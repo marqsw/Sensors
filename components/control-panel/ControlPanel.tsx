@@ -1,26 +1,26 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { Linking, Pressable, StyleSheet, View } from "react-native";
-import { useContext, useEffect, useState } from "react";
-import RecordButton from "./RecordButton";
 import { BlurView } from "@react-native-community/blur";
-import IconButton from "../IconButton";
 import * as FileSystem from "expo-file-system";
+import { shareAsync } from "expo-sharing";
+import { useContext, useEffect, useState } from "react";
+import { Pressable, StyleSheet, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import {
-  SelectionModeContext,
-  SetSelectionModeContext,
-} from "../context/recording/SelectionModeProvider";
+import { RecordedDataJSONContext } from "../context/recording/RecordedDataJSONContext";
 import {
   RecordingContext,
   SetRecordingContext,
 } from "../context/recording/RecordingProvider";
-import { RecordedDataJSONContext } from "../context/recording/RecordedDataJSONContext";
-import { shareAsync } from "expo-sharing";
+import {
+  SelectionModeContext,
+  SetSelectionModeContext,
+} from "../context/recording/SelectionModeProvider";
+import IconButton from "../IconButton";
+import RecordButton from "./RecordButton";
 import Settings from "./Settings";
 
 export default function ControlPanel() {
@@ -32,7 +32,7 @@ export default function ControlPanel() {
   const height = useSharedValue(15);
   const width = useSharedValue(100);
 
-  const [settingsOpened, setSettingsOpened] = useState(false)
+  const [settingsOpened, setSettingsOpened] = useState(false);
 
   const selectionMode = useContext(SelectionModeContext);
   const setSelectionMode = useContext(SetSelectionModeContext);
@@ -71,9 +71,11 @@ export default function ControlPanel() {
   });
 
   async function saveRecordedFile() {
-    const fileUri = `${
-      FileSystem.documentDirectory?.toString() + Date.now.toString()
-    } - SensorData.json`;
+    const currentTime = new Date(Date.now());
+
+    const fileUri =
+      FileSystem.documentDirectory?.toString() +
+      `${currentTime.getDate()}-${currentTime.getMonth()}-${currentTime.getFullYear()} ${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()} SensorData.json`;
 
     await FileSystem.writeAsStringAsync(
       fileUri,
@@ -94,9 +96,9 @@ export default function ControlPanel() {
   useEffect(() => {
     contentOpacity.value = withTiming(expanded ? 1 : 0);
     height.value = withSpring(expanded ? 20 : 10, { damping: 12, mass: 0.8 });
-    width.value = withSpring(expanded ? 90 : 20, { damping: 12, mass: 0.8 });
-    
-    !expanded && setSettingsOpened(false)
+    width.value = withSpring(expanded ? 90 : 25, { damping: 12, mass: 0.8 });
+
+    !expanded && setSettingsOpened(false);
   }, [expanded]);
 
   return (
@@ -127,9 +129,8 @@ export default function ControlPanel() {
           />
         )}
 
-
         {/* Settings */}
-        <Settings visible={settingsOpened}/>
+        <Settings visible={settingsOpened} />
 
         {/* Control Panel */}
         <Animated.View style={controlPanelStyle}>
@@ -162,6 +163,7 @@ export default function ControlPanel() {
             >
               {/* Selection button */}
               <IconButton
+                title="Select"
                 buttonSize={buttonSize}
                 iconName={selectionMode ? "albums" : "albums-outline"}
                 enabled={expanded && !recording}
@@ -183,11 +185,12 @@ export default function ControlPanel() {
 
               {/* Options button */}
               <IconButton
+                title="Options"
                 buttonSize={buttonSize}
                 iconName="options-outline"
                 enabled={expanded && !recording}
                 handleOnPress={() => {
-                  setSettingsOpened(prev => !prev)
+                  setSettingsOpened((prev) => !prev);
                 }}
               />
             </Animated.View>
@@ -198,6 +201,7 @@ export default function ControlPanel() {
               pointerEvents="none"
             >
               <IconButton
+                title={selectionMode ? "Done" : undefined}
                 iconName={
                   selectionMode
                     ? "checkmark-circle"

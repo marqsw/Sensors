@@ -1,11 +1,9 @@
-import { View, StyleSheet } from "react-native";
-import { GraphPoint, LineGraph } from "react-native-graph";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { useContext, useEffect } from "react";
+import { MutableRefObject, useContext, useEffect } from "react";
+import { StyleSheet, View } from "react-native";
+import { GraphPoint, LineGraph } from "react-native-graph";
 import { DataPointNumContext } from "../context/graphs/DataPointNumProvider";
 import { UpdateIntervalContext } from "../context/graphs/UpdateIntervalProvider";
-import { MutableRefObject } from "react";
-
 
 type Props = {
   liveData: number[];
@@ -50,7 +48,7 @@ export default function LineGraphView({
           axisData.shift();
         }
       });
-      graphData.current = newGraphData
+      graphData.current = newGraphData;
 
       // setGraphData(newGraphData);
       setMilliseconds((prev) => prev + updateInterval);

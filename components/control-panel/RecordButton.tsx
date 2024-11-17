@@ -1,4 +1,3 @@
-import { useThemeColor } from "@/hooks/useThemeColor";
 import { Pressable, View } from "react-native";
 import Animated, {
   useSharedValue,
@@ -58,7 +57,7 @@ export default function RecordButton({
             justifyContent: "center",
             borderRadius: 99999,
             aspectRatio: 1,
-            opacity: enabled ? 1 : 0.5
+            opacity: enabled ? 1 : 0.5,
           },
         ]}
       >
